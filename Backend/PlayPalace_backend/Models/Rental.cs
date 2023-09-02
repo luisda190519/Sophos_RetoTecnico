@@ -13,6 +13,6 @@
 
         public Customer Customer { get; set; }
         public Game Game { get; set; }
-        public Transaction Transaction { get; set; }
+    
     }
 }

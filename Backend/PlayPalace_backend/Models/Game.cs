@@ -12,7 +12,9 @@
         public string ImageUrl { get; set; }
 
         public int BrandID { get; set; }
-        
+
+        public double Price { get; set; }
+
         public Brand Brand { get; set; }
         public ICollection<Rental> Rentals { get; set; }
         public ICollection<GameAgeRange> GameAgeRanges { get; set; }

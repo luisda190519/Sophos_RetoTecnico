@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PlayPalace_backend.Context;
 
@@ -11,9 +12,11 @@ using PlayPalace_backend.Context;
 namespace PlayPalace_backend.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    partial class ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20230902211054_DBCreated6")]
+    partial class DBCreated6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -217,6 +220,28 @@ namespace PlayPalace_backend.Migrations
                     b.ToTable("Rentals");
                 });
 
+            modelBuilder.Entity("PlayPalace_backend.Models.Transaction", b =>
+                {
+                    b.Property<int>("TransactionID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransactionID"));
+
+                    b.Property<int>("RentalID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("TransactionDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("TransactionID");
+
+                    b.HasIndex("RentalID")
+                        .IsUnique();
+
+                    b.ToTable("Transactions");
+                });
+
             modelBuilder.Entity("PlayPalace_backend.Models.Game", b =>
                 {
                     b.HasOne("PlayPalace_backend.Models.Brand", "Brand")
@@ -269,6 +294,17 @@ namespace PlayPalace_backend.Migrations
                     b.Navigation("Game");
                 });
 
+            modelBuilder.Entity("PlayPalace_backend.Models.Transaction", b =>
+                {
+                    b.HasOne("PlayPalace_backend.Models.Rental", "Rental")
+                        .WithOne("Transaction")
+                        .HasForeignKey("PlayPalace_backend.Models.Transaction", "RentalID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Rental");
+                });
+
             modelBuilder.Entity("PlayPalace_backend.Models.Brand", b =>
                 {
                     b.Navigation("Games");
@@ -286,6 +322,12 @@ namespace PlayPalace_backend.Migrations
                     b.Navigation("MainCharacters");
 
                     b.Navigation("Rentals");
+                });
+
+            modelBuilder.Entity("PlayPalace_backend.Models.Rental", b =>
+                {
+                    b.Navigation("Transaction")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

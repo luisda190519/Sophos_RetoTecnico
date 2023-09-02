@@ -331,23 +331,7 @@ public static class SeedScript
             context.Rentals.AddRange(rentals);
             context.SaveChanges();
 
-            // Seed Transactions
-            var transactions = new List<Transaction>
-            {
-                new Transaction
-                {
-                    RentalID = 1, 
-                    TransactionDate = DateTime.Now.AddDays(-6)
-                },
-                new Transaction
-                {
-                    RentalID = 2, 
-                    TransactionDate = DateTime.Now.AddDays(-9)
-                }
-                // Add more transactions as needed
-            };
-            context.Transactions.AddRange(transactions);
-            context.SaveChanges();
+           
         }
     }
 }
