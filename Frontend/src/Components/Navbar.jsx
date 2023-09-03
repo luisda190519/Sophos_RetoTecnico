@@ -14,7 +14,7 @@ function Navbar() {
 
             // Set the Navbar background color based on the scroll position
             if (scrollY > scrollThreshold) {
-                setNavbarBg("rgba(0, 0, 0, 0.5)"); // Change to your desired background color
+                setNavbarBg("rgba(0, 0, 0, 0.9)"); // Change to your desired background color
             } else {
                 setNavbarBg("transparent");
             }
