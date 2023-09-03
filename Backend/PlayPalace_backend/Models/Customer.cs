@@ -10,6 +10,7 @@
         public string Cellphone { get; set; }
         public String Gender { get; set; }
         public string DocumentType { get; set; }
+        public int YearOfBirth { get; set; }
         public ICollection<Rental> Rentals { get; set; }
     }
 }
