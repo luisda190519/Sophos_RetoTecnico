@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PlayPalace_backend.Context;
 
@@ -11,9 +12,11 @@ using PlayPalace_backend.Context;
 namespace PlayPalace_backend.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    partial class ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20230907151207_modelsChanges")]
+    partial class modelsChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -266,7 +269,7 @@ namespace PlayPalace_backend.Migrations
 
                     b.HasKey("PlatformID");
 
-                    b.ToTable("Platforms");
+                    b.ToTable("Platform");
                 });
 
             modelBuilder.Entity("PlayPalace_backend.Models.Rental", b =>

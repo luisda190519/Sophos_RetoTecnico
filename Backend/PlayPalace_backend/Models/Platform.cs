@@ -2,13 +2,11 @@
 
 namespace PlayPalace_backend.Models
 {
-    public class Brand
+    public class Platform
     {
-        public int BrandID { get; set; }
+        public int PlatformID { get; set; }
+        public string Name { get; set; }
 
-        [Required]
-        public String Name { get; set; }
         public ICollection<Game> Games { get; set; }
-
     }
 }

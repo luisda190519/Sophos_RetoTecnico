@@ -51,15 +51,16 @@ namespace PlayPalace_backend.Controllers
         }
 
         //List games by producer or brand
-        [HttpGet("producerOrBrand/{producer}")]
-        public async Task<ActionResult<IEnumerable<Game>>> GetGamesByProducer(string query)
-        {
-            var games = await dbContext.Games
-                .Where(g => g.Producer == query || g.Brand.Name == query)
-                .ToListAsync();
+        //[HttpGet("producerOrBrand/{producer}")]
+        //public async Task<ActionResult<IEnumerable<Game>>> GetGamesByProducer(string query)
+        //public async Task<ActionResult<IEnumerable<Game>>> GetGamesByProducer(string query)
+        //{
+        //    var games = await dbContext.Games
+        //        .Where(g => g.Producer == query || g.Brand.Name == query)
+        //        .ToListAsync();
 
-            return Ok(games);
-        }
+        //    return Ok(games);
+        //}
 
 
         //List games by release date
