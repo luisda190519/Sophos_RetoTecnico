@@ -12,8 +12,8 @@ using PlayPalace_backend.Context;
 namespace PlayPalace_backend.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    [Migration("20230908025648_new_changes")]
-    partial class new_changes
+    [Migration("20230908044936_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -319,6 +319,9 @@ namespace PlayPalace_backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GameID"));
 
+                    b.Property<int?>("ApplicationUserId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Director")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -342,6 +345,8 @@ namespace PlayPalace_backend.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("GameID");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Games");
                 });
@@ -428,9 +433,6 @@ namespace PlayPalace_backend.Migrations
                     b.Property<int?>("ApplicationUserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CustomerID")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime2");
 
@@ -450,13 +452,16 @@ namespace PlayPalace_backend.Migrations
                     b.Property<DateTime>("RentalDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("customerID")
+                        .HasColumnType("int");
+
                     b.HasKey("RentalID");
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.HasIndex("CustomerID");
-
                     b.HasIndex("GameID");
+
+                    b.HasIndex("customerID");
 
                     b.ToTable("Rentals");
                 });
@@ -553,6 +558,13 @@ namespace PlayPalace_backend.Migrations
                     b.Navigation("ApplicationUser");
                 });
 
+            modelBuilder.Entity("PlayPalace_backend.Models.Game", b =>
+                {
+                    b.HasOne("PlayPalace_backend.Models.ApplicationUser", null)
+                        .WithMany("RentedGames")
+                        .HasForeignKey("ApplicationUserId");
+                });
+
             modelBuilder.Entity("PlayPalace_backend.Models.GameAgeRange", b =>
                 {
                     b.HasOne("PlayPalace_backend.Models.Game", "Game")
@@ -581,15 +593,15 @@ namespace PlayPalace_backend.Migrations
                         .WithMany("Rentals")
                         .HasForeignKey("ApplicationUserId");
 
-                    b.HasOne("PlayPalace_backend.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("PlayPalace_backend.Models.Game", "Game")
                         .WithMany("Rentals")
                         .HasForeignKey("GameID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PlayPalace_backend.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("customerID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -601,6 +613,8 @@ namespace PlayPalace_backend.Migrations
             modelBuilder.Entity("PlayPalace_backend.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Rentals");
+
+                    b.Navigation("RentedGames");
                 });
 
             modelBuilder.Entity("PlayPalace_backend.Models.Game", b =>

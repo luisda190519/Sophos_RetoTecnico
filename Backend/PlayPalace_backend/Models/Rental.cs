@@ -3,7 +3,7 @@
     public class Rental
     {
         public int RentalID { get; set; }
-        public int CustomerID { get; set; }
+        public int customerID { get; set; }
         public int GameID { get; set; }
         public DateTime RentalDate { get; set; }
         public DateTime DueDate { get; set; }

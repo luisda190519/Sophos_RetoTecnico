@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PlayPalace_backend.Context;
@@ -10,11 +11,13 @@ namespace PlayPalace_backend.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        public readonly ProjectContext dbContext;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ProjectContext _context;
 
-        public CustomerController(ProjectContext context)
+        public CustomerController(UserManager<ApplicationUser> userManager, ProjectContext context)
         {
-            dbContext = context;
+            _context = context;
+            _userManager = userManager;
         }
 
         //Create a new user
@@ -28,8 +31,8 @@ namespace PlayPalace_backend.Controllers
 
             try
             {
-                dbContext.Customers.Add(customer);
-                await dbContext.SaveChangesAsync();
+                _context.Customers.Add(customer);
+                await _context.SaveChangesAsync();
 
                 return CreatedAtAction("GetCustomerById", new { id = customer.CustomerID }, customer);
             }
@@ -41,59 +44,58 @@ namespace PlayPalace_backend.Controllers
 
         //Get customer by id
         [HttpGet("{id}")]
-        public async Task<ActionResult<Customer>> GetCustomerById(int id)
+        public async Task<ActionResult<ApplicationUser>> GetCustomerById(int id)
         {
-            var customer = await dbContext.Customers.FindAsync(id);
+            var user = await _context.Users.FindAsync(id);
 
-            if (customer == null)
+            if (user == null)
             {
-                return NotFound("Customer not found.");
+                return NotFound(); // Return a 404 response if the user is not found.
             }
 
-            return Ok(customer);
+            return Ok(user); // Return a 200 OK response with the user (customer) details.
         }
 
 
-        //get customer info
-        [HttpGet("{id}/details")]
-        public async Task<ActionResult> GetCustomerDetails(int id)
+        [HttpGet("{id}/history")]
+        public async Task<IActionResult> GetCustomerInfo(int id)
         {
-            var customer = await dbContext.Customers.FindAsync(id);
+            // Get the ApplicationUser based on the provided ID
+            var user = await _userManager.FindByIdAsync(id.ToString());
 
-            if (customer == null)
+            if (user == null)
             {
-                return NotFound("Customer not found.");
+                return NotFound("User not found");
             }
 
-            var customerDetails = await dbContext.Customers
-                .Where(c => c.CustomerID == id)
-                .Select(c => new
+            // Calculate the customer's balance (total amount spent on rentals)
+            double customerBalance = _context.Rentals
+                .Where(r => r.customerID == id)
+                .Sum(r => r.Price);
+
+            // Get the customer's rented games and delivery dates
+            var rentedGames = _context.Rentals
+                .Where(r => r.customerID == id)
+                .Select(r => new
                 {
-                    Customer = c,
-                    Balance = dbContext.Rentals
-                        .Where(r => r.CustomerID == id)
-                        .Sum(r => r.Price),
-                    DeliveryDate = dbContext.Rentals
-                        .Where(r => r.CustomerID == id)
-                        .Max(r => r.DueDate),
-                    RentedTitles = dbContext.Rentals
-                        .Where(r => r.CustomerID == id)
-                        .Select(r => r.Game.Title)
-                        .ToList()
+                    GameId = r.GameID,
+                    DueDate = r.DueDate,
+                    Delivered = r.Finished
                 })
-                .FirstOrDefaultAsync();
+                .ToList();
 
-            if (customerDetails == null)
+            var customerInfo = new
             {
-                return NotFound("Customer details not found.");
-            }
+                CustomerId = user.Id,
+                Balance = customerBalance,
+                RentedGames = rentedGames
+            };
 
-            return Ok(customerDetails);
+            return Ok(customerInfo);
         }
-
-
-
-
-
     }
+
+
+
 }
+

@@ -19,39 +19,39 @@ namespace PlayPalace_backend.Controllers
             dbContext = context;
         }
 
-        //Crear una transaccion
-        [HttpPost("create-transaction")]
-        public async Task<IActionResult> CreateTransaction([FromBody] Rental rentalRequest)
-        {
-            if (rentalRequest == null)
-            {
-                return BadRequest("Invalid request data.");
-            }
+        ////Crear una transaccion
+        //[HttpPost("create-transaction")]
+        //public async Task<IActionResult> CreateTransaction([FromBody] Rental rentalRequest)
+        //{
+        //    if (rentalRequest == null)
+        //    {
+        //        return BadRequest("Invalid request data.");
+        //    }
 
-            var customer = await dbContext.Customers.FindAsync(rentalRequest.CustomerID);
-            var game = await dbContext.Games.FindAsync(rentalRequest.GameID);
+        //    var customer = await dbContext.Customers.FindAsync(rentalRequest.CustomerID);
+        //    var game = await dbContext.Games.FindAsync(rentalRequest.GameID);
 
-            if (customer == null || game == null)
-            {
-                return NotFound("Customer or game not found.");
-            }
+        //    if (customer == null || game == null)
+        //    {
+        //        return NotFound("Customer or game not found.");
+        //    }
 
-            var rental = new Rental
-            {
-                CustomerID = customer.CustomerID,
-                GameID = game.GameID,
-                RentalDate = DateTime.Now,
-                DueDate = rentalRequest.DueDate,
-                Price = game.Price,
-                PayMethod = rentalRequest.PayMethod,
-                Finished = false
-            };
+        //    var rental = new Rental
+        //    {
+        //        CustomerID = customer.CustomerID,
+        //        GameID = game.GameID,
+        //        RentalDate = DateTime.Now,
+        //        DueDate = rentalRequest.DueDate,
+        //        Price = game.Price,
+        //        PayMethod = rentalRequest.PayMethod,
+        //        Finished = false
+        //    };
 
-            dbContext.Rentals.Add(rental);
-            await dbContext.SaveChangesAsync();
+        //    dbContext.Rentals.Add(rental);
+        //    await dbContext.SaveChangesAsync();
 
-            return Ok("Rental created successfully.");
-        }
+        //    return Ok("Rental created successfully.");
+        //}
 
 
         //Most frecuented customers

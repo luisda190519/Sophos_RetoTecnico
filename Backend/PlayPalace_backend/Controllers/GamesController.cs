@@ -11,67 +11,103 @@ namespace PlayPalace_backend.Controllers
     [ApiController]
     public class GamesController : ControllerBase
     {
-        public readonly ProjectContext dbContext;
+        private readonly ProjectContext _context;
 
         public GamesController(ProjectContext context)
         {
-            dbContext = context;
+            _context = context;
         }
 
         //List all the games in the database
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Game>>> GetGames()
+        public async Task<ActionResult<IEnumerable<Game>>> GetAllGames()
         {
-            var games = await dbContext.Games.ToListAsync();
+            var games = await _context.Games.ToListAsync();
+
             return Ok(games);
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Game>> GetGameById(int id)
+        {
+            var game = await _context.Games.FindAsync(id);
+
+            if (game == null)
+            {
+                return NotFound(); 
+            }
+
+            return Ok(game);
+        }
 
         //List games based on the director
-        [HttpGet("director/{director}")]
-        public async Task<ActionResult<IEnumerable<Game>>> GetGamesByDirector(string director)
+        [HttpGet("bydirector")]
+        public async Task<ActionResult<IEnumerable<Game>>> GetGamesByDirector([FromQuery] string directorName)
         {
-            var games = await dbContext.Games
-                .Where(g => g.Director == director)
+            var games = await _context.Games
+                .Where(game => game.Director == directorName)
                 .ToListAsync();
 
-            return Ok(games);
+            if (games.Count == 0)
+            {
+                return NotFound("No games found for the specified director."); // Return a 404 response if no games are found.
+            }
+
+            return Ok(games); // Return a 200 OK response with the list of games by the director.
         }
+
+
 
 
         //List games based the main character
-        [HttpGet("protagonists/{protagonists}")]
-        public async Task<ActionResult<IEnumerable<Game>>> GetGamesByProtagonists(string protagonists)
+        [HttpGet("bymaincharacter")]
+        public async Task<ActionResult<IEnumerable<Game>>> GetGamesByMainCharacter([FromQuery] string characterName)
         {
-            var games = await dbContext.Games
-                .Where(g => g.MainCharacters.Any(mc => mc.Name.Contains(protagonists)))
+            var games = await _context.Games
+                .Where(game => game.MainCharacters.Any(character => character.Name == characterName))
                 .ToListAsync();
 
-            return Ok(games);
+            if (games.Count == 0)
+            {
+                return NotFound("No games found for the specified main character."); // Return a 404 response if no games are found.
+            }
+
+            return Ok(games); // Return a 200 OK response with the list of games containing the main character(s).
         }
 
         //List games by producer or brand
-        //[HttpGet("producerOrBrand/{producer}")]
-        //public async Task<ActionResult<IEnumerable<Game>>> GetGamesByProducer(string query)
-        //public async Task<ActionResult<IEnumerable<Game>>> GetGamesByProducer(string query)
-        //{
-        //    var games = await dbContext.Games
-        //        .Where(g => g.Producer == query || g.Brand.Name == query)
-        //        .ToListAsync();
+        [HttpGet("byproducerorbrand")]
+        public async Task<ActionResult<IEnumerable<Game>>> GetGamesByProducerOrBrand(
+            [FromQuery] string producerName,
+            [FromQuery] string brandName)
+        {
+            var games = await _context.Games
+                .Where(game => game.Producer == producerName || game.Brands.Any(brand => brand.Name == brandName))
+                .ToListAsync();
 
-        //    return Ok(games);
-        //}
+            if (games.Count == 0)
+            {
+                return NotFound("No games found for the specified producer or brand."); // Return a 404 response if no games are found.
+            }
+
+            return Ok(games); // Return a 200 OK response with the list of games matching the producer or brand.
+        }
 
 
         //List games by release date
-        [HttpGet("release/{year}")]
-        public async Task<ActionResult<IEnumerable<Game>>> GetGamesByReleaseDate(int year)
+        [HttpGet("byyear")]
+        public async Task<ActionResult<IEnumerable<Game>>> GetGamesByYear([FromQuery] int year)
         {
-            var games = await dbContext.Games
-                .Where(g => g.Year.Year == year)
+            var games = await _context.Games
+                .Where(game => game.Year.Year == year)
                 .ToListAsync();
 
-            return Ok(games);
+            if (games.Count == 0)
+            {
+                return NotFound("No games found for the specified year."); // Return a 404 response if no games are found.
+            }
+
+            return Ok(games); // Return a 200 OK response with the list of games matching the year.
         }
 
         //Create a game
@@ -80,20 +116,13 @@ namespace PlayPalace_backend.Controllers
         {
             if (game == null)
             {
-                return BadRequest("Game data is invalid.");
+                return BadRequest("Invalid game data."); // Return a 400 Bad Request response if the game data is invalid.
             }
 
-            try
-            {
-                dbContext.Games.Add(game);
-                await dbContext.SaveChangesAsync();
+            _context.Games.Add(game);
+            await _context.SaveChangesAsync();
 
-                return CreatedAtAction("GetGameById", new { id = game.GameID }, game);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Error creating the game: {ex.Message}");
-            }
+            return CreatedAtAction(nameof(GetGameById), new { id = game.GameID }, game); // Return a 201 Created response with the newly created game.
         }
 
 

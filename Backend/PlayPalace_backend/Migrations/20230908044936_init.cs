@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PlayPalace_backend.Migrations
 {
     /// <inheritdoc />
-    public partial class new_changes : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -66,24 +66,6 @@ namespace PlayPalace_backend.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Brands", x => x.BrandID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Games",
-                columns: table => new
-                {
-                    GameID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Year = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Director = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Producer = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<double>(type: "float", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Games", x => x.GameID);
                 });
 
             migrationBuilder.CreateTable(
@@ -225,6 +207,30 @@ namespace PlayPalace_backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Games",
+                columns: table => new
+                {
+                    GameID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Year = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Director = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Producer = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<double>(type: "float", nullable: false),
+                    ApplicationUserId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Games", x => x.GameID);
+                    table.ForeignKey(
+                        name: "FK_Games_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "GameAgeRanges",
                 columns: table => new
                 {
@@ -270,28 +276,6 @@ namespace PlayPalace_backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MainCharacters",
-                columns: table => new
-                {
-                    CharacterID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    GameID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MainCharacters", x => x.CharacterID);
-                    table.ForeignKey(
-                        name: "FK_MainCharacters_Games_GameID",
-                        column: x => x.GameID,
-                        principalTable: "Games",
-                        principalColumn: "GameID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "GamePlatform",
                 columns: table => new
                 {
@@ -316,12 +300,34 @@ namespace PlayPalace_backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MainCharacters",
+                columns: table => new
+                {
+                    CharacterID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    GameID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MainCharacters", x => x.CharacterID);
+                    table.ForeignKey(
+                        name: "FK_MainCharacters_Games_GameID",
+                        column: x => x.GameID,
+                        principalTable: "Games",
+                        principalColumn: "GameID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Rentals",
                 columns: table => new
                 {
                     RentalID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CustomerID = table.Column<int>(type: "int", nullable: false),
+                    customerID = table.Column<int>(type: "int", nullable: false),
                     GameID = table.Column<int>(type: "int", nullable: false),
                     RentalDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -339,8 +345,8 @@ namespace PlayPalace_backend.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Rentals_Customers_CustomerID",
-                        column: x => x.CustomerID,
+                        name: "FK_Rentals_Customers_customerID",
+                        column: x => x.customerID,
                         principalTable: "Customers",
                         principalColumn: "CustomerID",
                         onDelete: ReferentialAction.Cascade);
@@ -412,6 +418,11 @@ namespace PlayPalace_backend.Migrations
                 column: "PlatformsPlatformID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Games_ApplicationUserId",
+                table: "Games",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MainCharacters_GameID",
                 table: "MainCharacters",
                 column: "GameID");
@@ -422,9 +433,9 @@ namespace PlayPalace_backend.Migrations
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rentals_CustomerID",
+                name: "IX_Rentals_customerID",
                 table: "Rentals",
-                column: "CustomerID");
+                column: "customerID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rentals_GameID",

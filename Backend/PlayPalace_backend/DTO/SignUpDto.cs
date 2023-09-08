@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace PlayPalace_backend.Models
+namespace PlayPalace_backend.DTO
 {
-    public class ApplicationUser : IdentityUser<int>
+    public class SignUpDto
     {
         [Required]
         public string Name { get; set; }
@@ -27,9 +26,12 @@ namespace PlayPalace_backend.Models
         [Required]
         public int Age { get; set; }
 
-        // Navigation property for related Rentals
-        public ICollection<Rental> Rentals { get; set; }
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
 
-        public ICollection<Game> RentedGames { get; set; }
+        [Required]
+        [MinLength(8)]
+        public string Password { get; set; }
     }
 }

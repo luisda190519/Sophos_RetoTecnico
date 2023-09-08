@@ -39,7 +39,7 @@ VALUES
     ('Red Dead Redemption 2', '2018-10-26', 'Rod Edge', 'Rob Nelson', 'https://image.api.playstation.com/cdn/UP1004/CUSA03041_00/Hpl5MtwQgOVF9vJqlfui6SDB5Jl4oBSq.png', 59.99),
     ('The Witcher 3: Wild Hunt', '2015-05-19', 'Konrad Tomaszkiewicz', 'Piotr Krzywonosiuk', 'https://image.api.playstation.com/vulcan/ap/rnd/202211/0711/kh4MUIuMmHlktOHar3lVl6rY.png', 39.99),
     ('Minecraft', '2011-11-18', 'Markus Persson', 'Markus Persson', 'https://image.api.playstation.com/vulcan/img/cfn/11307uYG0CXzRuA9aryByTHYrQLFz-HVQ3VVl7aAysxK15HMpqjkAIcC_R5vdfZt52hAXQNHoYhSuoSq_46_MT_tDBcLu49I.png', 19.99),
-    ('Fortnite', '2017-07-25', 'Darren Sugg', 'Zak Phelps', 'https://static.wikia.nocookie.net/doblaje/images/5/54/Fortnite_poster.jpg/revision/latest?cb=20230621055145&path-prefix=es', 0.00), -- You can set the price as needed
+    ('Fortnite', '2017-07-25', 'Darren Sugg', 'Zak Phelps', 'https://static.wikia.nocookie.net/doblaje/images/5/54/Fortnite_poster.jpg/revision/latest?cb=20230621055145&path-prefix=es', 0.00), 
     ('Grand Theft Auto V', '2013-09-17', 'Leslie Benzies', 'Rockstar North', 'https://m.media-amazon.com/images/I/91T0XQv8gEL.jpg', 49.99),
     ('Overwatch', '2016-05-24', 'Jeff Kaplan', 'Chacko Sonny', 'https://upload.wikimedia.org/wikipedia/en/thumb/5/51/Overwatch_cover_art.jpg/220px-Overwatch_cover_art.jpg', 29.99),
     ('Cyberpunk 2077', '2020-12-10', 'Adam Badowski', 'Richard Borzymowski', 'https://sm.ign.com/ign_es/game/c/cyberpunk-/cyberpunk-2077_ygyu.jpg', 49.99),
