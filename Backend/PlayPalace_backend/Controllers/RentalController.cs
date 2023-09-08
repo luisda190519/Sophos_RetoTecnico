@@ -55,24 +55,24 @@ namespace PlayPalace_backend.Controllers
 
 
         //Most frecuented customers
-        [HttpGet("frequent-customers")]
-        public async Task<ActionResult> GetFrequentCustomers()
-        {
-            var frequentCustomers = await dbContext.Customers
-                .Include(c => c.Rentals)
-                .OrderByDescending(c => c.Rentals.Count)
-                .ToListAsync();
+        //[HttpGet("frequent-customers")]
+        //public async Task<ActionResult> GetFrequentCustomers()
+        //{
+        //    var frequentCustomers = await dbContext.Customers
+        //        .Include(c => c.Rentals)
+        //        .OrderByDescending(c => c.Rentals.Count)
+        //        .ToListAsync();
 
-            var jsonSerializerOptions = new JsonSerializerOptions
-            {
-                ReferenceHandler = ReferenceHandler.Preserve,
-                // Add any other serialization options you need
-            };
+        //    var jsonSerializerOptions = new JsonSerializerOptions
+        //    {
+        //        ReferenceHandler = ReferenceHandler.Preserve,
+        //        // Add any other serialization options you need
+        //    };
 
-            var json = JsonSerializer.Serialize(frequentCustomers, jsonSerializerOptions);
+        //    var json = JsonSerializer.Serialize(frequentCustomers, jsonSerializerOptions);
 
-            return Ok(json);
-        }
+        //    return Ok(json);
+        //}
 
 
         //Most rented Games
@@ -97,46 +97,46 @@ namespace PlayPalace_backend.Controllers
         }
 
         //rented games by 10 year by year
-        [HttpGet("least-rented-game-by-age-range")]
-        public IActionResult GetLeastRentedGameByAgeRange()
-        {
-            // Define the age range increment (e.g., 10 years)
-            int ageRangeIncrement = 10;
+        //[HttpGet("least-rented-game-by-age-range")]
+        //public IActionResult GetLeastRentedGameByAgeRange()
+        //{
+        //    // Define the age range increment (e.g., 10 years)
+        //    int ageRangeIncrement = 10;
 
-            // Get the current year to calculate ages
-            int currentYear = DateTime.Now.Year;
+        //    // Get the current year to calculate ages
+        //    int currentYear = DateTime.Now.Year;
 
-            // Initialize a dictionary to store the results with age range as the key
-            Dictionary<string, Game> results = new Dictionary<string, Game>();
+        //    // Initialize a dictionary to store the results with age range as the key
+        //    Dictionary<string, Game> results = new Dictionary<string, Game>();
 
-            // Loop through age ranges, starting from 10 years old
-            for (int ageStart = 10; ageStart <= 100; ageStart += ageRangeIncrement)
-            {
-                int ageEnd = ageStart + ageRangeIncrement - 1;
+        //    // Loop through age ranges, starting from 10 years old
+        //    for (int ageStart = 10; ageStart <= 100; ageStart += ageRangeIncrement)
+        //    {
+        //        int ageEnd = ageStart + ageRangeIncrement - 1;
 
-                // Query rentals for customers within the current age range
-                var rentalsInAgeRange = dbContext.Rentals
-                    .Include(r => r.Customer)
-                    .Where(r => (currentYear - r.Customer.YearOfBirth) >= ageStart &&
-                                (currentYear - r.Customer.YearOfBirth) <= ageEnd)
-                    .ToList();
+        //        // Query rentals for customers within the current age range
+        //        var rentalsInAgeRange = dbContext.Rentals
+        //            .Include(r => r.Customer)
+        //            .Where(r => (currentYear - r.Customer.YearOfBirth) >= ageStart &&
+        //                        (currentYear - r.Customer.YearOfBirth) <= ageEnd)
+        //            .ToList();
 
-                // Find the least rented game within the age range
-                var leastRentedGame = dbContext.Games
-                    .Include(g => g.GameAgeRanges)
-                    .Where(g => g.GameAgeRanges.Any(ar => ar.StartAge <= ageEnd && ar.EndAge >= ageStart))
-                    .OrderBy(g => rentalsInAgeRange.Count(r => r.GameID == g.GameID))
-                    .FirstOrDefault();
+        //        // Find the least rented game within the age range
+        //        var leastRentedGame = dbContext.Games
+        //            .Include(g => g.GameAgeRanges)
+        //            .Where(g => g.GameAgeRanges.Any(ar => ar.StartAge <= ageEnd && ar.EndAge >= ageStart))
+        //            .OrderBy(g => rentalsInAgeRange.Count(r => r.GameID == g.GameID))
+        //            .FirstOrDefault();
 
-                // Create a key for the age range
-                string ageRangeKey = $"{ageStart}-{ageEnd} years";
+        //        // Create a key for the age range
+        //        string ageRangeKey = $"{ageStart}-{ageEnd} years";
 
-                // Add the least rented game to the dictionary with age range as the key
-                results.Add(ageRangeKey, leastRentedGame);
-            }
+        //        // Add the least rented game to the dictionary with age range as the key
+        //        results.Add(ageRangeKey, leastRentedGame);
+        //    }
 
-            return Ok(results);
-        }
+        //    return Ok(results);
+        //}
 
 
     }

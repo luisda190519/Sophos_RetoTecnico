@@ -18,17 +18,16 @@ namespace PlayPalace_backend.Models
         [Required]
         public string Producer { get; set; }
 
-        public ICollection<Platform> GamePlatforms { get; set; }
-
         [Required]
         public string ImageUrl { get; set; }
 
         public double Price { get; set; }
 
         public ICollection<Brand> Brands { get; set; }
-
         public ICollection<Rental> Rentals { get; set; }
         public ICollection<GameAgeRange> GameAgeRanges { get; set; }
         public ICollection<MainCharacter> MainCharacters { get; set; }
+        public ICollection<Platform> Platforms { get; set; }
+
     }
 }

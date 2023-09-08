@@ -6,8 +6,8 @@ namespace PlayPalace_backend.Models
     {
         public int BrandID { get; set; }
 
-        [Required]
         public String Name { get; set; }
+
         public ICollection<Game> Games { get; set; }
 
     }

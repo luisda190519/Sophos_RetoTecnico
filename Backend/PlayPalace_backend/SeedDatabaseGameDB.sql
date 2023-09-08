@@ -21,12 +21,15 @@ VALUES
     ('Nintendo');
 
 
-INSERT INTO Customers (Name, LastName, Address, Email, Cellphone, Gender, DocumentType)
+INSERT INTO AspNetUsers (UserName, PasswordHash, Name, LastName, Address, Email, Cellphone, Gender, DocumentType, Documento, Age)
 VALUES
-    ('Juan', 'Pérez', 'Calle Principal 123', 'juan@example.com', '123-456-7890', 'Masculino', 'Pasaporte'),
-    ('María', 'González', 'Avenida Elm 456', 'maria@example.com', '987-654-3210', 'Femenino', 'Cedula');
+    ('juan123', 'AQAAAAEAACcQAAAAEPuC9VEPNOrIMdc952hjqBp/4XIl7/fckpbMBJw18nWItQOTiqW2Sc9dtc5njK0xvg==', 'Juan', 'Pérez', 'Calle Principal 123', 'juan@example.com', '123-456-7890', 'Masculino', 'Pasaporte', '123467898', 18),
+    ('maria123', 'AQAAAAEAACcQAAAAEI2Q5144FBbv+b5YjVbfSoM5Isky6abgvuU4/ysMuuCWpuBCd5yU6s3W8sEDwhk19A==', 'María', 'González', 'Avenida Elm 456', 'maria@example.com', '987-654-3210', 'Femenino', 'Cedula' , '4654678646', 21);
 
-SET IDENTITY_INSERT Games ON;
+INSERT INTO Customers(ApplicationUserId)
+VALUES
+	(1),
+	(2);
 
 INSERT INTO Games (Title, Year, Director, Producer, ImageUrl, Price)
 VALUES
@@ -43,10 +46,7 @@ VALUES
     ('Final Fantasy VII Remake', '2020-04-10', 'Tetsuya Nomura', 'Yoshinori Kitase', 'https://static.wikia.nocookie.net/doblaje/images/9/92/Final_Fantasy_VII_Remake_Poster.jpg/revision/latest?cb=20200410152215&path-prefix=es', 49.99),
     ('Halo Infinite', '2021-12-08', 'Chris Le', 'Kieran Daly', 'https://cdn.hobbyconsolas.com/sites/navi.axelspringer.es/public/media/image/2021/11/halo-infinite-2535867.jpg?tf=3840x', 59.99);
 
-
-SET IDENTITY_INSERT Games OFF;
-
-INSERT INTO Brand (GameID, BrandID)
+INSERT INTO GameBrand (GamesGameID, BrandsBrandID)
 VALUES
     (1, 1), -- League of Legends - Riot Games
     (2, 2), -- Call of Duty: Modern Warfare 2 - Activision
@@ -61,7 +61,7 @@ VALUES
     (11, 5), -- Final Fantasy VII Remake - Nintendo
     (12, 2); -- Halo Infinite - Activision
 
-INSERT INTO Platform (GameID, PlatformID)
+INSERT INTO GamePlatform (GamesGameID, PlatformsPlatformID)
 VALUES
     (1, 1), -- League of Legends - PC
     (2, 3), -- Call of Duty: Modern Warfare 2 - Xbox One
@@ -101,10 +101,5 @@ VALUES
 
 INSERT INTO Rentals (CustomerID, GameID, RentalDate, DueDate, Price, PayMethod, Finished)
 VALUES
-    (1, 1, DATEADD(day, -7, GETDATE()), DATEADD(day, 7, GETDATE()), 29.99, 'Credit Card', 1),
+    (1, 1, DATEADD(day, -7, GETDATE()), DATEADD(day, 7, GETDATE()), 29.99, 'Credit Card', 0),
     (2, 2, DATEADD(day, -10, GETDATE()), DATEADD(day, 10, GETDATE()), 39.99, 'PayPal', 1);
-
-INSERT INTO Transactions (RentalID, TransactionDate)
-VALUES
-    (1, DATEADD(day, -6, GETDATE())),
-    (2, DATEADD(day, -9, GETDATE()));
