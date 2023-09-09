@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const URL = import.meta.env.VITE_API_URL || "https://hiremenow.onrender.com/api";
+const URL = "https://playpalace.azurewebsites.net/api";
 const error_reponse = "f";
 
 export const getRequest = async (name) => {

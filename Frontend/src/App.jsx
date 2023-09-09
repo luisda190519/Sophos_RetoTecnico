@@ -11,12 +11,12 @@ function App() {
             <Navbar></Navbar>
             <ImageHome></ImageHome>
             <div className="container">
-                <GameSets title={"Nuevos"} type={"/Games"}></GameSets>
+                <GameSets title={"Nuevos"} type={"/games"}></GameSets>
                 <Separator></Separator>
                 <div style={{marginTop:"200px"}}>
                     <GameSets
                         title={"Tendencias"}
-                        type={"/Rental/most-rented"}
+                        type={"/rental/mostrentedgames"}
                     ></GameSets>
                 </div>
             </div>
