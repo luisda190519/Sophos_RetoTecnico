@@ -5,6 +5,7 @@ using PlayPalace_backend.Context;
 using PlayPalace_backend.Models;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using PlayPalace_backend.DTO;
 
 namespace PlayPalace_backend.Controllers
 {
@@ -12,132 +13,206 @@ namespace PlayPalace_backend.Controllers
     [ApiController]
     public class RentalController : ControllerBase
     {
-        public readonly ProjectContext dbContext;
+        private readonly ProjectContext _context;
 
         public RentalController(ProjectContext context)
         {
-            dbContext = context;
+            _context = context;
         }
 
-        ////Crear una transaccion
-        //[HttpPost("create-transaction")]
-        //public async Task<IActionResult> CreateTransaction([FromBody] Rental rentalRequest)
-        //{
-        //    if (rentalRequest == null)
-        //    {
-        //        return BadRequest("Invalid request data.");
-        //    }
+        // Get a rental by ID
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Rental>> GetRentalById(int id)
+        {
+            var rental = await _context.Rentals.FindAsync(id);
 
-        //    var customer = await dbContext.Customers.FindAsync(rentalRequest.CustomerID);
-        //    var game = await dbContext.Games.FindAsync(rentalRequest.GameID);
+            if (rental == null)
+            {
+                return NotFound("Rental not found."); // Return a 404 Not Found response if the rental is not found.
+            }
 
-        //    if (customer == null || game == null)
-        //    {
-        //        return NotFound("Customer or game not found.");
-        //    }
+            return Ok(rental); // Return a 200 OK response with the rental data.
+        }
 
-        //    var rental = new Rental
-        //    {
-        //        CustomerID = customer.CustomerID,
-        //        GameID = game.GameID,
-        //        RentalDate = DateTime.Now,
-        //        DueDate = rentalRequest.DueDate,
-        //        Price = game.Price,
-        //        PayMethod = rentalRequest.PayMethod,
-        //        Finished = false
-        //    };
+        // Create a rental
+        [HttpPost]
+        public async Task<ActionResult<Rental>> CreateRental([FromBody] Rental rental)
+        {
+            if (rental == null)
+            {
+                return BadRequest("Invalid rental data."); // Return a 400 Bad Request response if the rental data is invalid.
+            }
 
-        //    dbContext.Rentals.Add(rental);
-        //    await dbContext.SaveChangesAsync();
+            try
+            {
+                // Ensure that the customer and game with the specified IDs exist in the database.
+                var customerExists = await _context.Customers.AnyAsync(c => c.CustomerID == rental.customerID);
+                var gameExists = await _context.Games.AnyAsync(g => g.GameID == rental.GameID);
 
-        //    return Ok("Rental created successfully.");
-        //}
+                if (!customerExists || !gameExists)
+                {
+                    return BadRequest("Invalid customer or game ID."); // Return a 400 Bad Request response if the customer or game ID is not found.
+                }
 
+                rental.RentalDate = DateTime.UtcNow; // Set the rental date to the current UTC time.
+                rental.DueDate = rental.RentalDate.AddDays(7); // Set the due date to one week from the rental date.
 
-        //Most frecuented customers
-        //[HttpGet("frequent-customers")]
-        //public async Task<ActionResult> GetFrequentCustomers()
-        //{
-        //    var frequentCustomers = await dbContext.Customers
-        //        .Include(c => c.Rentals)
-        //        .OrderByDescending(c => c.Rentals.Count)
-        //        .ToListAsync();
+                // Calculate the rental price based on your business logic
+                rental.CalculateRentalPrice(); // Call the CalculateRentalPrice method on the rental object.
 
-        //    var jsonSerializerOptions = new JsonSerializerOptions
-        //    {
-        //        ReferenceHandler = ReferenceHandler.Preserve,
-        //        // Add any other serialization options you need
-        //    };
+                _context.Rentals.Add(rental);
+                await _context.SaveChangesAsync();
 
-        //    var json = JsonSerializer.Serialize(frequentCustomers, jsonSerializerOptions);
+                return CreatedAtAction(nameof(GetRentalById), new { id = rental.RentalID }, rental); // Return a 201 Created response with the newly created rental.
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error: " + ex.Message);
+            }
+        }
 
-        //    return Ok(json);
-        //}
-
-
-        //Most rented Games
-        [HttpGet("most-rented")]
+        // List the most rented games
+        [HttpGet("mostrentedgames")]
         public async Task<ActionResult<IEnumerable<Game>>> GetMostRentedGames()
         {
-            var mostRentedGames = await dbContext.Games
-                .Include(g => g.Rentals)
-                .OrderByDescending(g => g.Rentals.Count)
-                .Take(10)
+            var mostRentedGames = await _context.Rentals
+                .GroupBy(r => r.GameID)
+                .Select(g => new
+                {
+                    GameID = g.Key,
+                    RentalCount = g.Count()
+                })
+                .OrderByDescending(g => g.RentalCount)
+                .Take(10) // You can adjust the number of games you want to retrieve
                 .ToListAsync();
 
-            var jsonSerializerOptions = new JsonSerializerOptions
+            if (mostRentedGames.Count == 0)
             {
-                ReferenceHandler = ReferenceHandler.Preserve,
-                // Add any other serialization options you need
-            };
+                return NotFound("No rented games found."); // Return a 404 response if no rented games are found.
+            }
 
-            var json = JsonSerializer.Serialize(mostRentedGames, jsonSerializerOptions);
+            var gameIds = mostRentedGames.Select(g => g.GameID).ToList();
 
-            return Ok(json);
+            // Retrieve the game details for the most rented games
+            var games = await _context.Games
+                .Where(g => gameIds.Contains(g.GameID))
+                .ToListAsync();
+
+            return Ok(games); // Return a 200 OK response with the list of most rented games.
         }
 
-        //rented games by 10 year by year
-        //[HttpGet("least-rented-game-by-age-range")]
-        //public IActionResult GetLeastRentedGameByAgeRange()
-        //{
-        //    // Define the age range increment (e.g., 10 years)
-        //    int ageRangeIncrement = 10;
+        // List the least rented games by age range in 10-year intervals
+        [HttpGet("leastrentedgamesbyagerange")]
+        public ActionResult<Dictionary<string, List<Game>>> GetLeastRentedGamesByAgeRange()
+        {
+            // Define age ranges
+            var allAgeRanges = new List<string>
+    {
+        "0-10", "11-20", "21-30", "31-40", "41-50", "51-60", "61-70", "71-80", "81-90", "91-100", "100+"
+    };
 
-        //    // Get the current year to calculate ages
-        //    int currentYear = DateTime.Now.Year;
+            // Get all rentals
+            var rentals = _context.Rentals.Include(r => r.Customer)
+                                           .ThenInclude(c => c.ApplicationUser)
+                                           .ToList();
 
-        //    // Initialize a dictionary to store the results with age range as the key
-        //    Dictionary<string, Game> results = new Dictionary<string, Game>();
+            // Calculate age range for a given age
+            string GetAgeRange(int age)
+            {
+                if (age >= 0 && age <= 10) return "0-10";
+                if (age >= 11 && age <= 20) return "11-20";
+                if (age >= 21 && age <= 30) return "21-30";
+                if (age >= 31 && age <= 40) return "31-40";
+                if (age >= 41 && age <= 50) return "41-50";
+                if (age >= 51 && age <= 60) return "51-60";
+                if (age >= 61 && age <= 70) return "61-70";
+                if (age >= 71 && age <= 80) return "71-80";
+                if (age >= 81 && age <= 90) return "81-90";
+                if (age >= 91 && age <= 100) return "91-100";
+                return "100+";
+            }
 
-        //    // Loop through age ranges, starting from 10 years old
-        //    for (int ageStart = 10; ageStart <= 100; ageStart += ageRangeIncrement)
-        //    {
-        //        int ageEnd = ageStart + ageRangeIncrement - 1;
+            // Calculate the count of rentals in each age range
+            var ageRangeCounts = allAgeRanges
+                .Select(ageRange => new
+                {
+                    AgeRange = ageRange,
+                    Count = rentals.Count(r =>
+                        r.Customer != null && // Check if Customer is not null
+                        r.Customer.ApplicationUser != null && // Check if ApplicationUser is not null
+                        GetAgeRange(r.Customer.ApplicationUser.Age) == ageRange)
+                })
+                .ToDictionary(x => x.AgeRange, x => x.Count);
 
-        //        // Query rentals for customers within the current age range
-        //        var rentalsInAgeRange = dbContext.Rentals
-        //            .Include(r => r.Customer)
-        //            .Where(r => (currentYear - r.Customer.YearOfBirth) >= ageStart &&
-        //                        (currentYear - r.Customer.YearOfBirth) <= ageEnd)
-        //            .ToList();
+            // Initialize an empty dictionary for least rented games by age range
+            var leastRentedGamesByAgeRange = new Dictionary<string, List<Game>>();
 
-        //        // Find the least rented game within the age range
-        //        var leastRentedGame = dbContext.Games
-        //            .Include(g => g.GameAgeRanges)
-        //            .Where(g => g.GameAgeRanges.Any(ar => ar.StartAge <= ageEnd && ar.EndAge >= ageStart))
-        //            .OrderBy(g => rentalsInAgeRange.Count(r => r.GameID == g.GameID))
-        //            .FirstOrDefault();
+            // Loop through each age range and find the least rented game(s)
+            foreach (var ageRange in allAgeRanges)
+            {
+                var minCount = ageRangeCounts[ageRange];
+                var leastRentedGames = rentals
+                    .Where(r =>
+                        r.Customer != null && // Check if Customer is not null
+                        r.Customer.ApplicationUser != null && // Check if ApplicationUser is not null
+                        GetAgeRange(r.Customer.ApplicationUser.Age) == ageRange)
+                    .GroupBy(x => x.GameID)
+                    .OrderBy(gg => gg.Count())
+                    .FirstOrDefault()?.Key;
 
-        //        // Create a key for the age range
-        //        string ageRangeKey = $"{ageStart}-{ageEnd} years";
+                // Retrieve the least rented game(s) based on the GameID
+                var leastRentedGame = _context.Games.Find(leastRentedGames);
 
-        //        // Add the least rented game to the dictionary with age range as the key
-        //        results.Add(ageRangeKey, leastRentedGame);
-        //    }
+                // Add the least rented game(s) to the dictionary
+                leastRentedGamesByAgeRange[ageRange] = new List<Game> { leastRentedGame };
+            }
 
-        //    return Ok(results);
-        //}
+            return Ok(leastRentedGamesByAgeRange);
+        }
 
+        // Helper method to determine the age range based on age
+        private string GetAgeRange(int age)
+        {
+            // Implement your logic to determine the age range based on the age
+            // For example, you can use Math.Floor(age / 10) * 10 to group by 10-year ranges.
+            int lowerBound = (int)Math.Floor((double)age / 10) * 10;
+            int upperBound = lowerBound + 9;
+
+            return $"{lowerBound}-{upperBound}";
+        }
+
+
+
+        // Change the daily rate for a rental
+        [HttpPut("{id}/changedailyrate")]
+        public async Task<ActionResult<Rental>> ChangeDailyRate(int id, [FromBody] double dailyRate)
+        {
+            var rental = await _context.Rentals.FindAsync(id);
+
+            if (rental == null)
+            {
+                return NotFound("Rental not found."); // Return a 404 Not Found response if the rental is not found.
+            }
+
+            rental.DailyRate = dailyRate;
+
+            // Recalculate the rental price based on the updated daily rate
+            rental.CalculateRentalPrice();
+
+            _context.Entry(rental).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return Ok(rental); // Return a 200 OK response with the updated rental data.
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to update rental.");
+            }
+        }
+
+   
 
     }
 }

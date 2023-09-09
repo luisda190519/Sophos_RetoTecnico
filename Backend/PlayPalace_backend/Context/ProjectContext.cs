@@ -50,7 +50,6 @@ namespace PlayPalace_backend.Context
         public DbSet<Game> Games { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Rental> Rentals { get; set; }
-        public DbSet<GameAgeRange> GameAgeRanges { get; set; }
         public DbSet<MainCharacter> MainCharacters { get; set; }
         public DbSet<Platform> Platforms { get; set; }
     }

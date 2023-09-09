@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace PlayPalace_backend.Models
 {
@@ -24,8 +25,9 @@ namespace PlayPalace_backend.Models
         public double Price { get; set; }
 
         public ICollection<Brand> Brands { get; set; }
+        
+        [JsonIgnore]
         public ICollection<Rental> Rentals { get; set; }
-        public ICollection<GameAgeRange> GameAgeRanges { get; set; }
         public ICollection<MainCharacter> MainCharacters { get; set; }
         public ICollection<Platform> Platforms { get; set; }
 

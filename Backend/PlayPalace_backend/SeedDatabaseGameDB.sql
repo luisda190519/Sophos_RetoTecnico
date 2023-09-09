@@ -93,13 +93,7 @@ VALUES
     ('Master Chief', '', 'https://static.wikia.nocookie.net/doblaje/images/8/82/Jefe_maestro_117_recortado.jpg/revision/latest/scale-to-width-down/1200?cb=20220403185716&path-prefix=es', 12);
 
 
-INSERT INTO GameAgeRanges (StartAge, EndAge, GameID)
+INSERT INTO Rentals (CustomerID, GameID, RentalDate, DueDate, DailyRate, PayMethod, Finished, Price)
 VALUES
-    (10, 19, 1), 
-    (20, 29, 2);
-
-
-INSERT INTO Rentals (CustomerID, GameID, RentalDate, DueDate, Price, PayMethod, Finished)
-VALUES
-    (1, 1, DATEADD(day, -7, GETDATE()), DATEADD(day, 7, GETDATE()), 29.99, 'Credit Card', 0),
-    (2, 2, DATEADD(day, -10, GETDATE()), DATEADD(day, 10, GETDATE()), 39.99, 'PayPal', 1);
+    (1, 1, DATEADD(day, -7, GETDATE()), DATEADD(day, 7, GETDATE()), 6, 'Credit Card', 0, 15),
+    (2, 2, DATEADD(day, -10, GETDATE()), DATEADD(day, 10, GETDATE()), 5, 'PayPal', 1, 26);

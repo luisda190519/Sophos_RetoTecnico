@@ -231,27 +231,6 @@ namespace PlayPalace_backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GameAgeRanges",
-                columns: table => new
-                {
-                    GameAgeRangeID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    GameID = table.Column<int>(type: "int", nullable: false),
-                    StartAge = table.Column<int>(type: "int", nullable: false),
-                    EndAge = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GameAgeRanges", x => x.GameAgeRangeID);
-                    table.ForeignKey(
-                        name: "FK_GameAgeRanges_Games_GameID",
-                        column: x => x.GameID,
-                        principalTable: "Games",
-                        principalColumn: "GameID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "GameBrand",
                 columns: table => new
                 {
@@ -332,6 +311,7 @@ namespace PlayPalace_backend.Migrations
                     RentalDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Price = table.Column<double>(type: "float", nullable: false),
+                    DailyRate = table.Column<double>(type: "float", nullable: false),
                     PayMethod = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Finished = table.Column<bool>(type: "bit", nullable: false),
                     ApplicationUserId = table.Column<int>(type: "int", nullable: true)
@@ -403,11 +383,6 @@ namespace PlayPalace_backend.Migrations
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GameAgeRanges_GameID",
-                table: "GameAgeRanges",
-                column: "GameID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_GameBrand_GamesGameID",
                 table: "GameBrand",
                 column: "GamesGameID");
@@ -460,9 +435,6 @@ namespace PlayPalace_backend.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
-
-            migrationBuilder.DropTable(
-                name: "GameAgeRanges");
 
             migrationBuilder.DropTable(
                 name: "GameBrand");

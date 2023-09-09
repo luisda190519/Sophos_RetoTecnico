@@ -348,30 +348,6 @@ namespace PlayPalace_backend.Migrations
                     b.ToTable("Games");
                 });
 
-            modelBuilder.Entity("PlayPalace_backend.Models.GameAgeRange", b =>
-                {
-                    b.Property<int>("GameAgeRangeID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GameAgeRangeID"));
-
-                    b.Property<int>("EndAge")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GameID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StartAge")
-                        .HasColumnType("int");
-
-                    b.HasKey("GameAgeRangeID");
-
-                    b.HasIndex("GameID");
-
-                    b.ToTable("GameAgeRanges");
-                });
-
             modelBuilder.Entity("PlayPalace_backend.Models.MainCharacter", b =>
                 {
                     b.Property<int>("CharacterID")
@@ -429,6 +405,9 @@ namespace PlayPalace_backend.Migrations
 
                     b.Property<int?>("ApplicationUserId")
                         .HasColumnType("int");
+
+                    b.Property<double>("DailyRate")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime2");
@@ -562,17 +541,6 @@ namespace PlayPalace_backend.Migrations
                         .HasForeignKey("ApplicationUserId");
                 });
 
-            modelBuilder.Entity("PlayPalace_backend.Models.GameAgeRange", b =>
-                {
-                    b.HasOne("PlayPalace_backend.Models.Game", "Game")
-                        .WithMany("GameAgeRanges")
-                        .HasForeignKey("GameID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Game");
-                });
-
             modelBuilder.Entity("PlayPalace_backend.Models.MainCharacter", b =>
                 {
                     b.HasOne("PlayPalace_backend.Models.Game", "Game")
@@ -616,8 +584,6 @@ namespace PlayPalace_backend.Migrations
 
             modelBuilder.Entity("PlayPalace_backend.Models.Game", b =>
                 {
-                    b.Navigation("GameAgeRanges");
-
                     b.Navigation("MainCharacters");
 
                     b.Navigation("Rentals");

@@ -110,6 +110,22 @@ namespace PlayPalace_backend.Controllers
             return Ok(games); // Return a 200 OK response with the list of games matching the year.
         }
 
+        //List games by platform
+        [HttpGet("byplatform")]
+        public async Task<ActionResult<IEnumerable<Game>>> GetGamesByPlatform([FromQuery] string platformName)
+        {
+            var games = await _context.Games
+                .Where(game => game.Platforms.Any(platform => platform.Name == platformName))
+                .ToListAsync();
+
+            if (games.Count == 0)
+            {
+                return NotFound("No games found for the specified platform."); // Return a 404 response if no games are found.
+            }
+
+            return Ok(games); // Return a 200 OK response with the list of games matching the platform.
+        }
+
         //Create a game
         [HttpPost]
         public async Task<ActionResult<Game>> CreateGame([FromBody] Game game)
