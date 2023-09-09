@@ -1,33 +1,37 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import "../Styles/Navbar.css";
 import { useNavigate, useParams } from "react-router-dom";
+import { AuthContext } from "../Utils/AuthContext";
 
 function Navbar() {
     const [navbarBg, setNavbarBg] = useState("transparent");
+    const { logout } = useContext(AuthContext);
+    const { userAuthenticated } = useContext(AuthContext);
+    const [user, setUser] = useState(userAuthenticated || false);
+    const navigate = useNavigate();
+
+    const nav = function (e, place) {
+        e.preventDefault();
+        return navigate(place);
+    };
 
     useEffect(() => {
         const handleScroll = () => {
             const scrollY = window.scrollY;
-
-            // Define the threshold at which the Navbar color changes
-            const scrollThreshold = 100; // Adjust this value as needed
-
-            // Set the Navbar background color based on the scroll position
+            const scrollThreshold = 100;
             if (scrollY > scrollThreshold) {
-                setNavbarBg("rgba(0, 0, 0, 0.9)"); // Change to your desired background color
+                setNavbarBg("rgba(0, 0, 0, 0.9)");
             } else {
                 setNavbarBg("transparent");
             }
         };
-
-        // Attach the scroll event listener when the component mounts
         window.addEventListener("scroll", handleScroll);
-
-        // Clean up the event listener when the component unmounts
         return () => {
             window.removeEventListener("scroll", handleScroll);
         };
     }, []);
+
+    console.log(user)
 
     return (
         <nav
@@ -89,10 +93,18 @@ function Navbar() {
                             </div>
                         </div>
                         <div className="col-2 d-flex justify-content-end align-items-center">
-                            <div className="">
-                                <i class="bi bi-cart text-white fs-3 me-3 click"></i>
-                                <i class="bi bi-person-circle fs-3 click"></i>
-                            </div>
+                            {user ? (
+                                <div className="">
+                                    <i class="bi bi-cart text-white fs-3 me-3 click"></i>
+                                    <i class="bi bi-person-circle fs-3 click me-3"></i>
+                                    <i class="bi bi-box-arrow-right fs-3 click "></i>
+                                </div>
+                            ) : (
+                                <div>
+                                    <button className="btn btn-secondary me-3" onClick={e => nav(e, "/login")}>Sign in</button>
+                                    <button className="btn btn-secondary me-3" onClick={e => nav(e, "/signup")}>Sign up</button>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

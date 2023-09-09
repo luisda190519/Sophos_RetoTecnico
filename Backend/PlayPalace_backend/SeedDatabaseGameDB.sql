@@ -1,4 +1,4 @@
-Use gameDB;
+﻿Use gameDB;
 
 INSERT INTO Brands (Name)
 VALUES
@@ -21,30 +21,30 @@ VALUES
     ('Nintendo');
 
 
-INSERT INTO AspNetUsers (UserName, PasswordHash, Name, LastName, Address, Email, Cellphone, Gender, DocumentType, Documento, Age)
+INSERT INTO AspNetUsers (UserName, PasswordHash, Name, LastName, Address, Email, Cellphone, Gender, DocumentType, Documento, Age, IsAdmin)
 VALUES
-    ('juan123', 'AQAAAAEAACcQAAAAEPuC9VEPNOrIMdc952hjqBp/4XIl7/fckpbMBJw18nWItQOTiqW2Sc9dtc5njK0xvg==', 'Juan', 'P�rez', 'Calle Principal 123', 'juan@example.com', '123-456-7890', 'Masculino', 'Pasaporte', '123467898', 18),
-    ('maria123', 'AQAAAAEAACcQAAAAEI2Q5144FBbv+b5YjVbfSoM5Isky6abgvuU4/ysMuuCWpuBCd5yU6s3W8sEDwhk19A==', 'Mar�a', 'Gonz�lez', 'Avenida Elm 456', 'maria@example.com', '987-654-3210', 'Femenino', 'Cedula' , '4654678646', 21);
+    ('juan123', 'AQAAAAEAACcQAAAAEPuC9VEPNOrIMdc952hjqBp/4XIl7/fckpbMBJw18nWItQOTiqW2Sc9dtc5njK0xvg==', 'Juan', 'Pérez', 'Calle Principal 123', 'juan@example.com', '123-456-7890', 'Masculino', 'Pasaporte', '123467898', 18, 1),
+    ('maria123', 'AQAAAAEAACcQAAAAEI2Q5144FBbv+b5YjVbfSoM5Isky6abgvuU4/ysMuuCWpuBCd5yU6s3W8sEDwhk19A==', 'María', 'González', 'Avenida Elm 456', 'maria@example.com', '987-654-3210', 'Femenino', 'Cedula' , '4654678646', 21, 0);
 
 INSERT INTO Customers(ApplicationUserId)
 VALUES
 	(1),
 	(2);
 
-INSERT INTO Games (Title, Year, Director, Producer, ImageUrl, Price)
+INSERT INTO Games (Description, Title, Year, Director, Producer, ImageUrl, Price)
 VALUES
-    ('League of Legends', '2009-10-27', 'Riot Games', 'Riot Games', 'https://static1-es.millenium.gg/articles/0/25/99/0/@/119862-lol-article_image_t-1.jpg', 29.99),
-    ('Call of Duty: Modern Warfare 2', '2009-11-10', 'Infinity Ward', 'Activision', 'https://static.wikia.nocookie.net/callofduty/images/2/27/ModernWarfareII_Keyart_MWII.jpg/revision/latest?cb=20220524163844', 39.99),
-    ('The Legend of Zelda: Breath of the Wild', '2017-03-03', 'Hidemaro Fujibayashi', 'Eiji Aonuma', 'https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/ncom/software/switch/70010000000025/7137262b5a64d921e193653f8aa0b722925abc5680380ca0e18a5cfd91697f58', 49.99),
-    ('Red Dead Redemption 2', '2018-10-26', 'Rod Edge', 'Rob Nelson', 'https://image.api.playstation.com/cdn/UP1004/CUSA03041_00/Hpl5MtwQgOVF9vJqlfui6SDB5Jl4oBSq.png', 59.99),
-    ('The Witcher 3: Wild Hunt', '2015-05-19', 'Konrad Tomaszkiewicz', 'Piotr Krzywonosiuk', 'https://image.api.playstation.com/vulcan/ap/rnd/202211/0711/kh4MUIuMmHlktOHar3lVl6rY.png', 39.99),
-    ('Minecraft', '2011-11-18', 'Markus Persson', 'Markus Persson', 'https://image.api.playstation.com/vulcan/img/cfn/11307uYG0CXzRuA9aryByTHYrQLFz-HVQ3VVl7aAysxK15HMpqjkAIcC_R5vdfZt52hAXQNHoYhSuoSq_46_MT_tDBcLu49I.png', 19.99),
-    ('Fortnite', '2017-07-25', 'Darren Sugg', 'Zak Phelps', 'https://static.wikia.nocookie.net/doblaje/images/5/54/Fortnite_poster.jpg/revision/latest?cb=20230621055145&path-prefix=es', 0.00), 
-    ('Grand Theft Auto V', '2013-09-17', 'Leslie Benzies', 'Rockstar North', 'https://m.media-amazon.com/images/I/91T0XQv8gEL.jpg', 49.99),
-    ('Overwatch', '2016-05-24', 'Jeff Kaplan', 'Chacko Sonny', 'https://upload.wikimedia.org/wikipedia/en/thumb/5/51/Overwatch_cover_art.jpg/220px-Overwatch_cover_art.jpg', 29.99),
-    ('Cyberpunk 2077', '2020-12-10', 'Adam Badowski', 'Richard Borzymowski', 'https://sm.ign.com/ign_es/game/c/cyberpunk-/cyberpunk-2077_ygyu.jpg', 49.99),
-    ('Final Fantasy VII Remake', '2020-04-10', 'Tetsuya Nomura', 'Yoshinori Kitase', 'https://static.wikia.nocookie.net/doblaje/images/9/92/Final_Fantasy_VII_Remake_Poster.jpg/revision/latest?cb=20200410152215&path-prefix=es', 49.99),
-    ('Halo Infinite', '2021-12-08', 'Chris Le', 'Kieran Daly', 'https://cdn.hobbyconsolas.com/sites/navi.axelspringer.es/public/media/image/2021/11/halo-infinite-2535867.jpg?tf=3840x', 59.99);
+    ('League of Legends es un juego en equipo con más de 140 campeones con los que realizar jugadas épicas', 'League of Legends', '2009-10-27', 'Riot Games', 'Riot Games', 'https://static1-es.millenium.gg/articles/0/25/99/0/@/119862-lol-article_image_t-1.jpg', 29.99),
+    ('El comandante Graves regresa a Call of Duty®: Modern Warfare 2 Temporada 5! Elige tu bando entre la fuerza operativa 141', 'Call of Duty: Modern Warfare 2', '2009-11-10', 'Infinity Ward', 'Activision', 'https://d34vmoxq6ylzee.cloudfront.net/magefan_blog/2CODMW2.jpg', 39.99),
+    ('Explora y descubre un mundo lleno de aventuras en The Legend of Zelda: Breath of the Wild, una nueva saga que rompe los esquemas de la aclamada serie.', 'The Legend of Zelda: Breath of the Wild', '2017-03-03', 'Hidemaro Fujibayashi', 'Eiji Aonuma', 'https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/ncom/software/switch/70010000000025/7137262b5a64d921e193653f8aa0b722925abc5680380ca0e18a5cfd91697f58', 49.99),
+    ('Red Dead Redemption 2 es un videojuego de acción-aventura western basado en el drama. Un juego bastante conocido también por sus cantidades de detalles realistas en un mundo abierto y en perspectiva de primera y tercera persona, ​ con componentes para un jugador y multijugador.​ Fue desarrollado por Rockstar Games.', 'Red Dead Redemption 2', '2018-10-26', 'Rod Edge', 'Rob Nelson', 'https://image.api.playstation.com/cdn/UP1004/CUSA03041_00/Hpl5MtwQgOVF9vJqlfui6SDB5Jl4oBSq.png', 59.99),
+    ('The Witcher 3: Wild Hunt es un videojuego de rol desarrollado y publicado por la compañía polaca CD Projekt RED. Esta compañía es la desarrolladora mientras que la distribución corre a cargo de la Warner Bros. Interactive, en el caso de Norteamérica y Bandai Namco para Europa.', 'The Witcher 3: Wild Hunt', '2015-05-19', 'Konrad Tomaszkiewicz', 'Piotr Krzywonosiuk', 'https://image.api.playstation.com/vulcan/ap/rnd/202211/0711/kh4MUIuMmHlktOHar3lVl6rY.png', 39.99),
+    ('Minecraft es un juego de bloques que podrás transformar en cualquier cosa que te imagines. Juega en el modo creativo con recursos ilimitados o busca herramientas para defenderte de los peligros que acechan en el modo supervivencia. Con el juego multiplataforma sin interrupciones en Minecraft: Bedrock Edition, puedes aventurarte por tu cuenta o con tus amigos y descubrir un mundo infinito generado aleatoriamente lleno de bloques que minar, biomas que explorar y criaturas con las que entablar amistad (o luchar).', 'Minecraft', '2011-11-18', 'Markus Persson', 'Markus Persson', 'https://image.api.playstation.com/vulcan/img/cfn/11307uYG0CXzRuA9aryByTHYrQLFz-HVQ3VVl7aAysxK15HMpqjkAIcC_R5vdfZt52hAXQNHoYhSuoSq_46_MT_tDBcLu49I.png', 19.99),
+    ('Fortnite es un videojuego del año 2017 desarrollado por la empresa Epic Games lanzado como diferentes paquetes de software que presentan diferentes modos de juego, pero que comparten el mismo motor de juego y mecánicas. Fue anunciado en los premios Spike Video Game Awards en 2011.', 'Fortnite', '2017-07-25', 'Darren Sugg', 'Zak Phelps', 'https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/ncom/software/switch/70010000010192/d7d122e8b5680f10d50587141a9f8c4fab17d8557b884a60531d16e861a70cb3', 0.00), 
+    ('Grand Theft Auto V es un videojuego de acción-aventura de mundo abierto en tercera persona desarrollado por el estudio escocés Rockstar North y distribuido por Rockstar Games. Fue lanzado el 17 de septiembre de 2013 para las consolas Xbox 360 y PlayStation 3', 'Grand Theft Auto V', '2013-09-17', 'Leslie Benzies', 'Rockstar North', 'https://m.media-amazon.com/images/I/91T0XQv8gEL.jpg', 49.99),
+    ('Overwatch es una franquicia multimedia centrada en una serie de videojuegos de disparos en primera persona multijugador en línea desarrollados por Blizzard Entertainment: Overwatch se lanzó en 2016 y Overwatch 2 se lanzó en 2022.', 'Overwatch', '2016-05-24', 'Jeff Kaplan', 'Chacko Sonny', 'https://upload.wikimedia.org/wikipedia/en/thumb/5/51/Overwatch_cover_art.jpg/220px-Overwatch_cover_art.jpg', 29.99),
+    ('Cyberpunk 2077 es un videojuego perteneciente al género rol de acción y disparos en primera persona desarrollado y publicado por CD Projekt, que se lanzó para Microsoft Windows, PlayStation 4 y Xbox One el 10 de diciembre de 2020, y posteriormente en PlayStation 5, Xbox Series X|S y Google Stadia', 'Cyberpunk 2077', '2020-12-10', 'Adam Badowski', 'Richard Borzymowski', 'https://sm.ign.com/ign_es/game/c/cyberpunk-/cyberpunk-2077_ygyu.jpg', 49.99),
+    ('Final Fantasy VII Remake es un videojuego de rol de acción, publicado por la empresa Square Enix inicialmente para la plataforma PlayStation 4, que fue lanzado el 10 de abril de 2020.​ Es una nueva versión del videojuego Final Fantasy VII del año 1997 para la consola PlayStation.', 'Final Fantasy VII Remake', '2020-04-10', 'Tetsuya Nomura', 'Yoshinori Kitase', 'https://static.wikia.nocookie.net/doblaje/images/9/92/Final_Fantasy_VII_Remake_Poster.jpg/revision/latest?cb=20200410152215&path-prefix=es', 49.99),
+    ('Halo Infinite es un videojuego de disparos en primera persona de la franquicia de videojuegos de ciencia ficción creada por Bungie Studios y actualmente desarrollada por 343 Industries. Es exclusivo para las plataformas Xbox One, Microsoft Windows y Xbox Series X|S.', 'Halo Infinite', '2021-12-08', 'Chris Le', 'Kieran Daly', 'https://cdn.hobbyconsolas.com/sites/navi.axelspringer.es/public/media/image/2021/11/halo-infinite-2535867.jpg?tf=3840x', 59.99);
 
 INSERT INTO GameBrand (GamesGameID, BrandsBrandID)
 VALUES
@@ -96,4 +96,8 @@ VALUES
 INSERT INTO Rentals (CustomerID, GameID, RentalDate, DueDate, DailyRate, PayMethod, Finished, Price)
 VALUES
     (1, 1, DATEADD(day, -7, GETDATE()), DATEADD(day, 7, GETDATE()), 6, 'Credit Card', 0, 15),
-    (2, 2, DATEADD(day, -10, GETDATE()), DATEADD(day, 10, GETDATE()), 5, 'PayPal', 1, 26);
+    (2, 2, DATEADD(day, -10, GETDATE()), DATEADD(day, 10, GETDATE()), 5, 'PayPal', 1, 26),
+	(1, 3, DATEADD(day, -10, GETDATE()), DATEADD(day, 10, GETDATE()), 5, 'PayPal', 1, 26),
+	(2, 4, DATEADD(day, -10, GETDATE()), DATEADD(day, 10, GETDATE()), 5, 'PayPal', 1, 26),
+	(1, 5, DATEADD(day, -10, GETDATE()), DATEADD(day, 10, GETDATE()), 5, 'PayPal', 1, 26),
+	(2, 6, DATEADD(day, -10, GETDATE()), DATEADD(day, 10, GETDATE()), 5, 'PayPal', 1, 26);

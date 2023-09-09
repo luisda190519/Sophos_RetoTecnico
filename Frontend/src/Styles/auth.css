@@ -1,0 +1,9 @@
+i {
+    color: "#eb5e28" !important;
+}
+
+input {
+    background-color: rgba(16, 16, 16, 0.4) !important;
+    border: 1px solid #2f3e46 !important;
+    color: white !important;
+}

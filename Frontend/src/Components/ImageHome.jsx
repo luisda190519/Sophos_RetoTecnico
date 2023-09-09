@@ -22,7 +22,7 @@ function ImageHome() {
         "https://gaming-cdn.com/img/products/6442/pcover/6442.jpg?v=1686753600",
         "https://gaming-cdn.com/img/products/1919/pcover/1919.jpg?v=1645396692",
         "https://gaming-cdn.com/img/products/51/pcover/51.jpg?v=1666175938",
-        "https://gaming-cdn.com/img/products/1263/pcover/1263.jpg?v=1693511060",
+        "https://gaming-cdn.com/img/products/13288/pcover/1920x620/13288.jpg?v=1693513018",
     ];
 
     const nextImage = () => {

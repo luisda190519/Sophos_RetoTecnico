@@ -1,26 +1,30 @@
-import React, { useState, useEffect } from "react";
-import Navbar from "./Components/Navbar";
-import ImageHome from "./Components/ImageHome";
-import GameSets from "./Components/GameSets";
-import Separator from "./Components/Separator";
-import "./Styles/App.css";
+import React from "react";
+import {
+    BrowserRouter,
+    Route,
+    Routes,
+    Navigate,
+    Outlet,
+} from "react-router-dom";
+import Login from "./Views/Login";
+import Signup from "./Views/Signup";
+import Home from "./Views/Home";
+import PageNotFound from "./Views/PageNotFound";
+import { AuthProvider } from "./Utils/AuthContext";
 
 function App() {
     return (
-        <div>
-            <Navbar></Navbar>
-            <ImageHome></ImageHome>
-            <div className="container">
-                <GameSets title={"Nuevos"} type={"/games"}></GameSets>
-                <Separator></Separator>
-                <div style={{marginTop:"200px"}}>
-                    <GameSets
-                        title={"Tendencias"}
-                        type={"/rental/mostrentedgames"}
-                    ></GameSets>
-                </div>
-            </div>
-        </div>
+        <AuthProvider>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Navigate to="/home" />} />
+                    <Route path="/home" Component={Home} />
+                    <Route path="/login" Component={Login} />
+                    <Route path="/signup" Component={Signup} />
+                    <Route path="*" Component={PageNotFound} />
+                </Routes>
+            </BrowserRouter>
+        </AuthProvider>
     );
 }
 

@@ -24,6 +24,8 @@ namespace PlayPalace_backend.Models
 
         public string Documento { get; set; }
 
+        public bool IsAdmin { get; set; }
+
         [Required]
         public int Age { get; set; }
 
