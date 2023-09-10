@@ -88,22 +88,20 @@ function Signup() {
             cellphone: number,
             gender,
             documentType: type,
-            documento,
-            document,
+            documento: document,
             age,
             IsAdmin: false,
         });
 
         console.log(Object.keys(user));
 
-        if (
-            typeof user === "object" &&
-            user !== null &&
-            Object.keys(user).length > 1
-        ) {
+        if (user.ok) {
+            const user = await response.json();
             await login(user);
             return navigate("/home");
         }
+    
+        console.log("Invalid username or password");
     };
 
     return (

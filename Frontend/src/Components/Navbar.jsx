@@ -31,8 +31,6 @@ function Navbar() {
         };
     }, []);
 
-    console.log(user)
-
     return (
         <nav
             id="navbar"
@@ -50,8 +48,8 @@ function Navbar() {
                 <div className="container-fluid">
                     <div className="row gx-0">
                         <div className="col-2 d-flex align-items-center justify-content-center">
-                            <div className="d-flex align-items-center justify-content-center">
-                                <i class="bi bi-controller fs-2"></i>
+                            <div className="d-flex align-items-center justify-content-center click" onClick={e => nav(e, "/home")}>
+                                <i className="bi bi-controller fs-2"></i>
                                 <p className="fs-3 ms-3 mt-3">
                                     <span>P</span>lay<span>P</span>alace
                                 </p>
@@ -64,28 +62,28 @@ function Navbar() {
                                     id="navbarNav"
                                 >
                                     <ul className="navbar-nav ml-auto">
-                                        <li className="nav-item active">
-                                            <a className="nav-link" href="#">
+                                        <li className="nav-item active click">
+                                            <a className="nav-link" onClick={e => nav(e, "/platform/PC")}>
                                                 PC
-                                                <i class="bi bi-chevron-down ms-1 text-secondary"></i>
+                                                <i className="bi bi-chevron-down ms-1 text-secondary"></i>
                                             </a>
                                         </li>
-                                        <li className="nav-item">
-                                            <a className="nav-link" href="#">
+                                        <li className="nav-item click">
+                                            <a className="nav-link" onClick={e => nav(e, "/platform/Playstation")}>
                                                 Playstation
-                                                <i class="bi bi-chevron-down ms-1 text-secondary"></i>
+                                                <i className="bi bi-chevron-down ms-1 text-secondary"></i>
                                             </a>
                                         </li>
-                                        <li className="nav-item">
-                                            <a className="nav-link" href="#">
+                                        <li className="nav-item click">
+                                            <a className="nav-link" onClick={e => nav(e, "/platform/Xbox")}>
                                                 Xbox
-                                                <i class="bi bi-chevron-down ms-1 text-secondary"></i>
+                                                <i className="bi bi-chevron-down ms-1 text-secondary"></i>
                                             </a>
                                         </li>
-                                        <li className="nav-item">
-                                            <a className="nav-link" href="#">
+                                        <li className="nav-item click">
+                                            <a className="nav-link" onClick={e => nav(e, "/platform/Nintendo")}>
                                                 Nintendo
-                                                <i class="bi bi-chevron-down ms-1 text-secondary"></i>
+                                                <i className="bi bi-chevron-down ms-1 text-secondary"></i>
                                             </a>
                                         </li>
                                     </ul>
@@ -95,9 +93,9 @@ function Navbar() {
                         <div className="col-2 d-flex justify-content-end align-items-center">
                             {user ? (
                                 <div className="">
-                                    <i class="bi bi-cart text-white fs-3 me-3 click"></i>
-                                    <i class="bi bi-person-circle fs-3 click me-3"></i>
-                                    <i class="bi bi-box-arrow-right fs-3 click "></i>
+                                    <i className="bi bi-cart text-white fs-3 me-3 click"></i>
+                                    <i className="bi bi-person-circle fs-3 click me-3"></i>
+                                    <i className="bi bi-box-arrow-right fs-3 click "></i>
                                 </div>
                             ) : (
                                 <div>

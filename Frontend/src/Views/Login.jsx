@@ -27,21 +27,20 @@ function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const user = await postRequest("/Auth/signin", {
-            email,
-            password,
+        const response = await postRequest("/Auth/signin", {
+            Email: email,
+            Password: password,
         });
 
-        if (
-            typeof user === "object" &&
-            user !== null &&
-            Object.keys(user).length > 1
-        ) {
+        console.log(response.response)
+        console.log(email + " "+ password)
+
+        if (response.ok) {
+            const user = await response.json();
             await login(user);
             return navigate("/home");
         }
-
-        console.log("Usuario o email incorrecto");
+    
     };
 
     return (

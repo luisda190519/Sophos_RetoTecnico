@@ -11,6 +11,8 @@ import Signup from "./Views/Signup";
 import Home from "./Views/Home";
 import PageNotFound from "./Views/PageNotFound";
 import { AuthProvider } from "./Utils/AuthContext";
+import Platform from "./Views/Platform";
+import ExpandedGame from "./Views/ExpandedGame";
 
 function App() {
     return (
@@ -21,6 +23,8 @@ function App() {
                     <Route path="/home" Component={Home} />
                     <Route path="/login" Component={Login} />
                     <Route path="/signup" Component={Signup} />
+                    <Route path="/platform/:platformName" Component={Platform} />
+                    <Route path="/game/:gameID" Component={ExpandedGame} />
                     <Route path="*" Component={PageNotFound} />
                 </Routes>
             </BrowserRouter>

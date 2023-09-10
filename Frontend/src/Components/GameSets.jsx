@@ -1,14 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { getRequest } from "../Utils/Request";
+import { useNavigate, useParams } from "react-router-dom";
 
 function GameSets({ title, type }) {
     const [data, setData] = useState([]);
     const [expand, setExpand] = useState(false);
     const [expandText, setExpandText] = useState("Ver todo");
+    const navigate = useNavigate();
 
     const handleExpandClick = () => {
+        e.preventDefault();
         setExpand(!expand);
         setExpandText(expandText == "Ver todo" ? "Ver menos" : "Ver todo");
+    };
+
+    const handleGameClick = (e, id) => {
+        e.preventDefault();
+        console.log(id);
+        return navigate("/game/" + id);
     };
 
     useEffect(() => {
@@ -16,7 +25,7 @@ function GameSets({ title, type }) {
             .then((response) => {
                 const dataArray = normalizeData(response);
                 setData(dataArray);
-                console.log(type)
+                console.log(type);
                 console.log(dataArray);
             })
             .catch((error) => {
@@ -43,7 +52,9 @@ function GameSets({ title, type }) {
                     </div>
                     <div className="col d-flex justify-content-end">
                         <button
-                            className={expand ? "btn btn-danger" : "btn btn-secondary"}
+                            className={
+                                expand ? "btn btn-danger" : "btn btn-secondary"
+                            }
                             onClick={handleExpandClick}
                         >
                             {expandText}
@@ -64,9 +75,15 @@ function GameSets({ title, type }) {
                                                 backgroundColor: "#272727",
                                                 color: "white",
                                             }}
+                                            onClick={(e) =>
+                                                handleGameClick(e, game.gameID)
+                                            }
                                         >
                                             <img
-                                                src={game.imageUrl || game.ImageUrl}
+                                                src={
+                                                    game.imageUrl ||
+                                                    game.ImageUrl
+                                                }
                                                 alt=""
                                                 className="card-img-top img-fluid"
                                                 style={{
@@ -79,8 +96,15 @@ function GameSets({ title, type }) {
                                                 style={{ height: "10%" }}
                                             >
                                                 <div className="d-flex justify-content-between">
-                                                    <p>{game.title || game.Title}</p>
-                                                    <p>{game.price || game.Price}$</p>
+                                                    <p>
+                                                        {game.title ||
+                                                            game.Title}
+                                                    </p>
+                                                    <p>
+                                                        {game.price ||
+                                                            game.Price}
+                                                        $
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -101,9 +125,15 @@ function GameSets({ title, type }) {
                                                 backgroundColor: "#272727",
                                                 color: "white",
                                             }}
+                                            onClick={(e) =>
+                                                handleGameClick(e, game.gameID)
+                                            }
                                         >
                                             <img
-                                                src={game.imageUrl || game.ImageUrl}
+                                                src={
+                                                    game.imageUrl ||
+                                                    game.ImageUrl
+                                                }
                                                 alt=""
                                                 className="card-img-top img-fluid"
                                                 style={{
@@ -116,8 +146,15 @@ function GameSets({ title, type }) {
                                                 style={{ height: "10%" }}
                                             >
                                                 <div className="d-flex justify-content-between">
-                                                    <p>{game.title || game.Title}</p>
-                                                    <p>{game.price || game.Price}$</p>
+                                                    <p>
+                                                        {game.title ||
+                                                            game.Title}
+                                                    </p>
+                                                    <p>
+                                                        {game.price ||
+                                                            game.Price}
+                                                        $
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>

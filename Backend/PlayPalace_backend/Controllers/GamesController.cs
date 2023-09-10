@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PlayPalace_backend.Context;
+using PlayPalace_backend.DTO;
 using PlayPalace_backend.Models;
 
 
@@ -125,6 +126,76 @@ namespace PlayPalace_backend.Controllers
 
             return Ok(games); // Return a 200 OK response with the list of games matching the platform.
         }
+
+        [HttpGet("platforms/{id}")]
+        public async Task<ActionResult<IEnumerable<PlatformDTO>>> GetPlatformsByGameId(int id)
+        {
+            var game = await _context.Games
+                .Include(g => g.Platforms)
+                .FirstOrDefaultAsync(g => g.GameID == id);
+
+            if (game == null)
+            {
+                return NotFound();
+            }
+
+            var platforms = game.Platforms.Select(p => new PlatformDTO
+            {
+                PlatformID = p.PlatformID,
+                Name = p.Name,
+                // Initialize other properties as needed
+            });
+
+            return Ok(platforms);
+        }
+
+        [HttpGet("maincharacters/{id}")]
+        public async Task<ActionResult<IEnumerable<MainCharacterDTO>>> GetMainCharactersByGameId(int id)
+        {
+            var game = await _context.Games
+                .Include(g => g.MainCharacters)
+                .FirstOrDefaultAsync(g => g.GameID == id);
+
+            if (game == null)
+            {
+                return NotFound();
+            }
+
+            var mainCharacters = game.MainCharacters.Select(mc => new MainCharacterDTO
+            {
+                MainCharacterID = mc.CharacterID,
+                Name = mc.Name,
+                LastName = mc.LastName,
+                ImageURL = mc.ImageURL,
+                // Initialize other properties as needed
+            });
+
+            return Ok(mainCharacters);
+        }
+
+        [HttpGet("brands/{id}")]
+        public async Task<ActionResult<IEnumerable<BrandDTO>>> GetBrandsByGameId(int id)
+        {
+            var game = await _context.Games
+                .Include(g => g.Brands)
+                .FirstOrDefaultAsync(g => g.GameID == id);
+
+            if (game == null)
+            {
+                return NotFound();
+            }
+
+            var brands = game.Brands.Select(brand => new BrandDTO
+            {
+                BrandID = brand.BrandID,
+                Name = brand.Name,
+                // Initialize other properties as needed
+            });
+
+            return Ok(brands);
+        }
+
+
 
         //Create a game
         [HttpPost]
