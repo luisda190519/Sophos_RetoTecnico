@@ -8,7 +8,7 @@ function GameSets({ title, type }) {
     const [expandText, setExpandText] = useState("Ver todo");
     const navigate = useNavigate();
 
-    const handleExpandClick = () => {
+    const handleExpandClick = (e) => {
         e.preventDefault();
         setExpand(!expand);
         setExpandText(expandText == "Ver todo" ? "Ver menos" : "Ver todo");
@@ -55,7 +55,7 @@ function GameSets({ title, type }) {
                             className={
                                 expand ? "btn btn-danger" : "btn btn-secondary"
                             }
-                            onClick={handleExpandClick}
+                            onClick={e => handleExpandClick(e)}
                         >
                             {expandText}
                         </button>
