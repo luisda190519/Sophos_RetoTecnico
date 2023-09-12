@@ -8,16 +8,36 @@
     z-index: 1000;
 }
 
-
-a{
+a {
     color: white !important;
-    color : linear-gradient(10deg,#ff8000,transparent) #ff4020;
+    color: linear-gradient(10deg, #ff8000, transparent) #ff4020;
 }
 
-span{
+span {
     color: #eb5e28;
 }
 
-.click{
+#naranja {
+    color: white;
+}
+
+#outer {
+    background-color: #eb5e28;
+    border: none;
+}
+
+#input{
+    background-color: #eb5e28 !important;
+    color: white !important;
+    border: none !important;
+}
+
+#input::placeholder{
+    background-color: #eb5e28 !important;
+    color: rgb(213, 185, 185) !important;
+    border: none !important;
+}
+
+.click {
     cursor: pointer;
 }

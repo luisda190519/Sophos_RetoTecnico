@@ -43,7 +43,7 @@ VALUES
     ('Grand Theft Auto V es un videojuego de acción-aventura de mundo abierto en tercera persona desarrollado por el estudio escocés Rockstar North y distribuido por Rockstar Games. Fue lanzado el 17 de septiembre de 2013 para las consolas Xbox 360 y PlayStation 3', 'Grand Theft Auto V', '2013-09-17', 'Leslie Benzies', 'Rockstar North', 'https://m.media-amazon.com/images/I/91T0XQv8gEL.jpg', 49.99),
     ('Overwatch es una franquicia multimedia centrada en una serie de videojuegos de disparos en primera persona multijugador en línea desarrollados por Blizzard Entertainment: Overwatch se lanzó en 2016 y Overwatch 2 se lanzó en 2022.', 'Overwatch', '2016-05-24', 'Jeff Kaplan', 'Chacko Sonny', 'https://upload.wikimedia.org/wikipedia/en/thumb/5/51/Overwatch_cover_art.jpg/220px-Overwatch_cover_art.jpg', 29.99),
     ('Cyberpunk 2077 es un videojuego perteneciente al género rol de acción y disparos en primera persona desarrollado y publicado por CD Projekt, que se lanzó para Microsoft Windows, PlayStation 4 y Xbox One el 10 de diciembre de 2020, y posteriormente en PlayStation 5, Xbox Series X|S y Google Stadia', 'Cyberpunk 2077', '2020-12-10', 'Adam Badowski', 'Richard Borzymowski', 'https://sm.ign.com/ign_es/game/c/cyberpunk-/cyberpunk-2077_ygyu.jpg', 49.99),
-    ('Final Fantasy VII Remake es un videojuego de rol de acción, publicado por la empresa Square Enix inicialmente para la plataforma PlayStation 4, que fue lanzado el 10 de abril de 2020.​ Es una nueva versión del videojuego Final Fantasy VII del año 1997 para la consola PlayStation.', 'Final Fantasy VII Remake', '2020-04-10', 'Tetsuya Nomura', 'Yoshinori Kitase', 'https://static.wikia.nocookie.net/doblaje/images/9/92/Final_Fantasy_VII_Remake_Poster.jpg/revision/latest?cb=20200410152215&path-prefix=es', 49.99),
+    ('Final Fantasy VII Remake es un videojuego de rol de acción, publicado por la empresa Square Enix inicialmente para la plataforma PlayStation 4, que fue lanzado el 10 de abril de 2020.​ Es una nueva versión del videojuego Final Fantasy VII del año 1997 para la consola PlayStation.', 'Final Fantasy VII Remake', '2020-04-10', 'Tetsuya Nomura', 'Yoshinori Kitase', 'https://i.blogs.es/748356/ggx33/1366_2000.jpeg', 49.99),
     ('Halo Infinite es un videojuego de disparos en primera persona de la franquicia de videojuegos de ciencia ficción creada por Bungie Studios y actualmente desarrollada por 343 Industries. Es exclusivo para las plataformas Xbox One, Microsoft Windows y Xbox Series X|S.', 'Halo Infinite', '2021-12-08', 'Chris Le', 'Kieran Daly', 'https://cdn.hobbyconsolas.com/sites/navi.axelspringer.es/public/media/image/2021/11/halo-infinite-2535867.jpg?tf=3840x', 59.99);
 
 INSERT INTO GameBrand (GamesGameID, BrandsBrandID)
@@ -77,20 +77,20 @@ VALUES
     (12, 2); -- Halo Infinite - Xbox 360
 
 
-INSERT INTO MainCharacters (Name, LastName, ImageURL, GameID)
+INSERT INTO MainCharacters (Name, ImageURL, GameID)
 VALUES
-    ('Viego', '', 'https://static.wikia.nocookie.net/leagueoflegends/images/2/26/Cuadro_-_Viego_Cl%C3%A1sico.jpg/revision/latest/scale-to-width-down/380?cb=20230711010351&path-prefix=es', 1),
-    ('Soap', 'XML', 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/89f42578-dec8-41ae-b422-939b4391921a/dfou4mv-48a1fee2-35e7-42c5-8158-6d98ca47d377.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyMjY0MzczYTVmMGD4MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzg5ZjQyNTc4LWRlYzgtNDFhZS1iNDIyLTkzOWI0MzkxOTIxYVwvZGZvdTRtdi00OGExZmVlMi0zNWU3LTQyYzUtODE1OC02ZDk4Y2E4MTI3Yi5qcGcifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.SaDq1cDVXP_iO5FeAJUSnuY2G4hYs_RWh6QGj0mw3E', 2),
-    ('Link', '', 'https://oyster.ignimgs.com/mediawiki/apis.ign.com/the-legend-of-zelda-breath-of-the-wild-2/3/38/Link2.png', 3),
-    ('Arthur Morgan', '', 'https://static.wikia.nocookie.net/reddeadredemption/images/5/52/RDR2_Arthur_Morgan_Default.jpg/revision/latest?cb=20200602191534', 4),
-    ('Geralt of Rivia', '', 'https://media.vandal.net/i/620x620/7-2023/202373111153222_1.jpg', 5),
-    ('Steve', '', 'https://static.wikia.nocookie.net/heroe/images/3/3a/Steve_SSBU.png/revision/latest?cb=20210501222417&path-prefix=es', 6),
-    ('Jonesy', '', 'https://skinsdefortnite.com/wp-content/uploads/2021/01/fortnite-outfit-jonesy-the-first.jpg', 7),
-    ('Michael De Santa', '', 'https://static.wikia.nocookie.net/esgta/images/6/6c/Michael_De_Santa.png/revision/latest?cb=20200718184410', 8),
-    ('Tracer', '', 'https://oyster.ignimgs.com/mediawiki/apis.ign.com/overwatch/b/b1/Tracerskin1.jpg?width=325', 9),
-    ('V', '', 'https://assetsio.reedpopcdn.com/cyberpunk-2077-modders-make-unused-quests-and-e3-v-playable-1618840339115.jpg?width=1200&height=1200&fit=crop&quality=100&format=png&enable=upscale&auto=webp', 10),
-    ('Cloud Strife', '', 'https://static.wikia.nocookie.net/esfinalfantasy/images/c/ca/Cloud_Strife_-_Arte_Nomura.jpg/revision/latest?cb=20090526165815', 11),
-    ('Master Chief', '', 'https://static.wikia.nocookie.net/doblaje/images/8/82/Jefe_maestro_117_recortado.jpg/revision/latest/scale-to-width-down/1200?cb=20220403185716&path-prefix=es', 12);
+    ('Viego', 'https://static.wikia.nocookie.net/leagueoflegends/images/2/26/Cuadro_-_Viego_Cl%C3%A1sico.jpg/revision/latest/scale-to-width-down/380?cb=20230711010351&path-prefix=es', 1),
+    ('Soap', 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/89f42578-dec8-41ae-b422-939b4391921a/dfou4mv-48a1fee2-35e7-42c5-8158-6d98ca47d377.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyMjY0MzczYTVmMGD4MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzg5ZjQyNTc4LWRlYzgtNDFhZS1iNDIyLTkzOWI0MzkxOTIxYVwvZGZvdTRtdi00OGExZmVlMi0zNWU3LTQyYzUtODE1OC02ZDk4Y2E4MTI3Yi5qcGcifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.SaDq1cDVXP_iO5FeAJUSnuY2G4hYs_RWh6QGj0mw3E', 2),
+    ('Link', 'https://oyster.ignimgs.com/mediawiki/apis.ign.com/the-legend-of-zelda-breath-of-the-wild-2/3/38/Link2.png', 3),
+    ('Arthur Morgan', 'https://static.wikia.nocookie.net/reddeadredemption/images/5/52/RDR2_Arthur_Morgan_Default.jpg/revision/latest?cb=20200602191534', 4),
+    ('Geralt of Rivia', 'https://media.vandal.net/i/620x620/7-2023/202373111153222_1.jpg', 5),
+    ('Steve', 'https://static.wikia.nocookie.net/heroe/images/3/3a/Steve_SSBU.png/revision/latest?cb=20210501222417&path-prefix=es', 6),
+    ('Jonesy', 'https://skinsdefortnite.com/wp-content/uploads/2021/01/fortnite-outfit-jonesy-the-first.jpg', 7),
+    ('Michael De Santa', 'https://static.wikia.nocookie.net/esgta/images/6/6c/Michael_De_Santa.png/revision/latest?cb=20200718184410', 8),
+    ('Tracer', 'https://oyster.ignimgs.com/mediawiki/apis.ign.com/overwatch/b/b1/Tracerskin1.jpg?width=325', 9),
+    ('V', 'https://assetsio.reedpopcdn.com/cyberpunk-2077-modders-make-unused-quests-and-e3-v-playable-1618840339115.jpg?width=1200&height=1200&fit=crop&quality=100&format=png&enable=upscale&auto=webp', 10),
+    ('Cloud Strife', 'https://static.wikia.nocookie.net/esfinalfantasy/images/c/ca/Cloud_Strife_-_Arte_Nomura.jpg/revision/latest?cb=20090526165815', 11),
+    ('Master Chief', 'https://static.wikia.nocookie.net/doblaje/images/8/82/Jefe_maestro_117_recortado.jpg/revision/latest/scale-to-width-down/1200?cb=20220403185716&path-prefix=es', 12);
 
 
 INSERT INTO Rentals (CustomerID, GameID, RentalDate, DueDate, DailyRate, PayMethod, Finished, Price)

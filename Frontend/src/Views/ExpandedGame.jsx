@@ -91,7 +91,7 @@ function ExpandedGame() {
                                             }}
                                             key={key}
                                         >
-                                            {icons[platform.name]}
+                                            {icons[platform.name.split(" ")[0]]}
                                             <span className="me-3"></span>
                                             {platform.name}
                                         </button>
@@ -119,9 +119,10 @@ function ExpandedGame() {
                     </div>
                     <div className="col-6">
                         <h3 className="text-white">
-                            Basado en {Math.round(Math.random() * 20)} reviews
+                            Basado en {Math.round(Math.random() * 20) + 1}{" "}
+                            reviews
                         </h3>
-                        <div className="game-rating">
+                        <div className="game-rating mb-2">
                             {ratingStars.map((star, index) => (
                                 <span className="fs-3" key={index}>
                                     {star}

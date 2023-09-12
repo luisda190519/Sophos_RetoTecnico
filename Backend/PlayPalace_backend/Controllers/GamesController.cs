@@ -46,15 +46,15 @@ namespace PlayPalace_backend.Controllers
         public async Task<ActionResult<IEnumerable<Game>>> GetGamesByDirector([FromQuery] string directorName)
         {
             var games = await _context.Games
-                .Where(game => game.Director == directorName)
+                .Where(game => game.Director.Equals(directorName, StringComparison.OrdinalIgnoreCase))
                 .ToListAsync();
 
             if (games.Count == 0)
             {
-                return NotFound("No games found for the specified director."); // Return a 404 response if no games are found.
+                return NotFound("No games found for the specified director.");
             }
 
-            return Ok(games); // Return a 200 OK response with the list of games by the director.
+            return Ok(games);
         }
 
 
@@ -65,34 +65,49 @@ namespace PlayPalace_backend.Controllers
         public async Task<ActionResult<IEnumerable<Game>>> GetGamesByMainCharacter([FromQuery] string characterName)
         {
             var games = await _context.Games
-                .Where(game => game.MainCharacters.Any(character => character.Name == characterName))
+                .Where(game => game.MainCharacters.Any(character => character.Name.Equals(characterName, StringComparison.OrdinalIgnoreCase)))
                 .ToListAsync();
 
             if (games.Count == 0)
             {
-                return NotFound("No games found for the specified main character."); // Return a 404 response if no games are found.
+                return NotFound("No games found for the specified main character.");
             }
 
-            return Ok(games); // Return a 200 OK response with the list of games containing the main character(s).
+            return Ok(games);
         }
+
 
         //List games by producer or brand
-        [HttpGet("byproducerorbrand")]
-        public async Task<ActionResult<IEnumerable<Game>>> GetGamesByProducerOrBrand(
-            [FromQuery] string producerName,
-            [FromQuery] string brandName)
+        [HttpGet("byproducer")]
+        public async Task<ActionResult<IEnumerable<Game>>> GetGamesByProducer([FromQuery] string producerName)
         {
             var games = await _context.Games
-                .Where(game => game.Producer == producerName || game.Brands.Any(brand => brand.Name == brandName))
+                .Where(game => game.Producer.Equals(producerName, StringComparison.OrdinalIgnoreCase))
                 .ToListAsync();
 
             if (games.Count == 0)
             {
-                return NotFound("No games found for the specified producer or brand."); // Return a 404 response if no games are found.
+                return NotFound("No games found for the specified producer.");
             }
 
-            return Ok(games); // Return a 200 OK response with the list of games matching the producer or brand.
+            return Ok(games);
         }
+
+        [HttpGet("bybrand")]
+        public async Task<ActionResult<IEnumerable<Game>>> GetGamesByBrand([FromQuery] string brandName)
+        {
+            var games = await _context.Games
+                .Where(game => game.Brands.Any(brand => brand.Name.Equals(brandName, StringComparison.OrdinalIgnoreCase)))
+                .ToListAsync();
+
+            if (games.Count == 0)
+            {
+                return NotFound("No games found for the specified brand.");
+            }
+
+            return Ok(games);
+        }
+
 
 
         //List games by release date
@@ -165,13 +180,28 @@ namespace PlayPalace_backend.Controllers
             {
                 MainCharacterID = mc.CharacterID,
                 Name = mc.Name,
-                LastName = mc.LastName,
                 ImageURL = mc.ImageURL,
                 // Initialize other properties as needed
             });
 
             return Ok(mainCharacters);
         }
+
+        [HttpGet("bymaincharactername")]
+        public async Task<ActionResult<IEnumerable<Game>>> GetGamesByMainCharacterName([FromQuery] string characterName)
+        {
+            var games = await _context.Games
+                .Where(game => game.MainCharacters.Any(character => character.Name.Equals(characterName, StringComparison.OrdinalIgnoreCase)))
+                .ToListAsync();
+
+            if (games.Count == 0)
+            {
+                return NotFound("No games found for the specified main character name.");
+            }
+
+            return Ok(games);
+        }
+
 
         [HttpGet("brands/{id}")]
         public async Task<ActionResult<IEnumerable<BrandDTO>>> GetBrandsByGameId(int id)
@@ -195,6 +225,21 @@ namespace PlayPalace_backend.Controllers
             return Ok(brands);
         }
 
+        //get game by name
+        [HttpGet("byname")]
+        public async Task<ActionResult<IEnumerable<Game>>> GetGamesByName([FromQuery] string gameName)
+        {
+            var games = await _context.Games
+                .Where(game => game.Title.ToLower().Contains(gameName.ToLower()))
+                .ToListAsync();
+
+            if (games.Count == 0)
+            {
+                return NotFound("No games found matching the specified name.");
+            }
+
+            return Ok(games);
+        }
 
 
         //Create a game

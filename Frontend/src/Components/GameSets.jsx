@@ -16,7 +16,6 @@ function GameSets({ title, type }) {
 
     const handleGameClick = (e, id) => {
         e.preventDefault();
-        console.log(id);
         return navigate("/game/" + id);
     };
 

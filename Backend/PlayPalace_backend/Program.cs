@@ -50,7 +50,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy",
         builder => builder
-            .WithOrigins("http://127.0.0.1:5173")
+            .WithOrigins("http://127.0.0.1:5173", "https://vitejsvitetdmbhy-40vc--5173--7259293c.local-corp.webcontainer.io")
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials());

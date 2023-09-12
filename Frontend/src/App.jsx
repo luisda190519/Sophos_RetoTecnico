@@ -11,7 +11,7 @@ import Signup from "./Views/Signup";
 import Home from "./Views/Home";
 import PageNotFound from "./Views/PageNotFound";
 import { AuthProvider } from "./Utils/AuthContext";
-import Platform from "./Views/Platform";
+import Search from "./Views/Search";
 import ExpandedGame from "./Views/ExpandedGame";
 
 function App() {
@@ -20,10 +20,11 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Navigate to="/home" />} />
+                    
                     <Route path="/home" Component={Home} />
                     <Route path="/login" Component={Login} />
                     <Route path="/signup" Component={Signup} />
-                    <Route path="/platform/:platformName" Component={Platform} />
+                    <Route path="/game/:type/:search" Component={Search} />
                     <Route path="/game/:gameID" Component={ExpandedGame} />
                     <Route path="*" Component={PageNotFound} />
                 </Routes>
