@@ -1,7 +1,31 @@
-import React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function ListGames({ games, title, type }) {
+    const navigate = useNavigate();
+    const [typeSearch, setTypeSearch] = useState(type);
+    const [search, setSearch] = useState("");
+
+    const handleGameClick = (e, id) => {
+        e.preventDefault();
+        return navigate("/game/" + id);
+    };
+
+    const handleSelect = function (e, type) {
+        e.preventDefault();
+        setTypeSearch(e.target.value);
+        console.log(e.target.value);
+    };
+
+    const handleInputChange = function (e) {
+        setSearch(e.target.value);
+    };
+
+    const handleSearchAdvance = function (e) {
+        e.preventDefault();
+        return navigate("/game/" + typeSearch + "/" + search);
+    };
+
     return (
         <div className="container" style={{ marginTop: "10em" }}>
             <h1 className="text-white mb-5">
@@ -9,9 +33,17 @@ function ListGames({ games, title, type }) {
                     <div>{title} games</div>
                 ) : type === "name" ? (
                     <div> {title} </div>
-                ) : (
-                    <div></div>
-                )}
+                ) : type === "director" || type === "producer" ? (
+                    <div>
+                        Juegos{" "}
+                        {type === "director" ? "dirigidos" : "producidos"} por{" "}
+                        {title}
+                    </div>
+                ) : type === "brand" ? (
+                    <div>Juegos hecho por la empresa {title} </div>
+                ) : type==="year" ? (
+                    <div>Juegos lanzados en el año {title}</div>
+                ): <div>Juegos con el/la Protagonista llamado {title}</div> }
             </h1>
             {games === "cargando" ? (
                 <div></div>
@@ -29,7 +61,7 @@ function ListGames({ games, title, type }) {
                         </div>
                     </div>
                 </div>
-            ) : (
+            ) : games !== "advance" ? (
                 <div className="row">
                     {games.map((game, key) => (
                         <div className="col-4 mt-3" key={key}>
@@ -41,6 +73,7 @@ function ListGames({ games, title, type }) {
                                     backgroundColor: "#272727",
                                     color: "white",
                                 }}
+                                onClick={(e) => handleGameClick(e, game.gameID)}
                             >
                                 <img
                                     src={game.imageUrl || game.ImageUrl}
@@ -60,6 +93,46 @@ function ListGames({ games, title, type }) {
                             </div>
                         </div>
                     ))}
+                </div>
+            ) : (
+                <div>
+                    <div className="row">
+                        <div className="col-6">
+                            <input
+                                type="text"
+                                className="form-contro w-100 py-2 mt-1"
+                                onChange={(e) => handleInputChange(e)}
+                            />
+                        </div>
+                        <div className="col-6 py-2">
+                            <div className="input-group">
+                                <select
+                                    className="form-select"
+                                    id="inputGroupSelect04"
+                                    aria-label="Example select with button addon"
+                                    onChange={(e) => handleSelect(e)}
+                                >
+                                    <option value="platform">Plataforma</option>
+                                    <option value="name">Nombre</option>
+                                    <option value="director">Director</option>
+                                    <option value="producer">Productor</option>
+                                    <option value="brand">Marca</option>
+                                    <option value="year">
+                                        Año de lanzamiento
+                                    </option>
+                                    <option value="mc">Protagonista/s</option>
+                                </select>
+                                <button
+                                    className="btn btn-outline-secondary"
+                                    type="button"
+                                    id="naranja"
+                                    onClick={(e) => handleSearchAdvance(e)}
+                                >
+                                    <i className="bi bi-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>

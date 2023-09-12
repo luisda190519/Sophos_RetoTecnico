@@ -13,12 +13,13 @@ function Search() {
         name: "/Games/byname?gameName=",
         director: "/Games/bydirector?directorName=",
         producer: "/Games/byproducer?producerName=",
-        brand: "/Games/byproducer?brandName=",
+        brand: "/Games/bybrand?brandName=",
         year: "/Games/byyear?year=",
         mc: "/Games/bymaincharacter?characterName=",
     };
 
     console.log(search + "  " + type);
+    
 
     useEffect(() => {
         async function fetchGamesByPlatform() {
@@ -41,7 +42,7 @@ function Search() {
         if (type !== "advance") {
             fetchGamesByPlatform();
         }else{
-            setGames("cargando");
+            setGames("advance");
         }
     }, [search]);
 

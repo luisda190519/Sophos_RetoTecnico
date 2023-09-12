@@ -7,3 +7,15 @@ input {
     border: 1px solid #2f3e46 !important;
     color: white !important;
 }
+
+select {
+    background-color: rgba(16, 16, 16, 0.4) !important;
+    border: 1px solid #2f3e46 !important;
+    color: white !important;
+}
+
+#naranja{
+    background-color: #eb5e28 !important;
+    color: white !important;
+    border: none !important;
+}
