@@ -23,7 +23,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(options =>
     options.Password.RequireUppercase = true;
     options.Password.RequireNonAlphanumeric = true;
 
-    options.SignIn.RequireConfirmedEmail = true;
+    options.SignIn.RequireConfirmedEmail = false;
     options.SignIn.RequireConfirmedPhoneNumber = false;
 
     options.Tokens.ProviderMap[TokenOptions.DefaultProvider] = new TokenProviderDescriptor(
@@ -50,7 +50,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy",
         builder => builder
-            .WithOrigins("http://127.0.0.1:5173", "https://vitejsvitetdmbhy-40vc--5173--7259293c.local-credentialless.webcontainer.io")
+            .WithOrigins("http://127.0.0.1:5173")
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials());

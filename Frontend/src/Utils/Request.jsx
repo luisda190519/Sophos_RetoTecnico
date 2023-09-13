@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const URL = "https://playpalace.azurewebsites.net/api";
+const URL =
+    "http://localhost:5092/api" || "https://playpalace.azurewebsites.net/api";
 
 export const getRequest = async (name) => {
     return await axios

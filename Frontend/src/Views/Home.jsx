@@ -3,6 +3,7 @@ import Navbar from "../Components/Navbar";
 import ImageHome from "../Components/ImageHome";
 import GameSets from "../Components/GameSets";
 import Separator from "../Components/Separator";
+import Footer from "../Components/Footer"
 import "../Styles/Home.css";
 
 function Home(){
@@ -20,6 +21,7 @@ function Home(){
                     ></GameSets>
                 </div>
             </div>
+            <Footer></Footer>
         </div>
     );
 }

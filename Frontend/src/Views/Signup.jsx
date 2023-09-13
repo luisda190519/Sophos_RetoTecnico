@@ -80,24 +80,21 @@ function Signup() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const user = await postRequest("/Auth/signup", {
-            email,
-            password,
-            name,
-            lastname,
-            address,
-            cellphone: number,
-            gender,
-            documentType: type,
-            documento: document,
-            age,
+            Email:email,
+            Password : password,
+            Name : name,
+            LastName : lastname,
+            Address: address,
+            Cellphone: number,
+            Gender: gender,
+            DocumentType: type,
+            Documento: document,
+            Age: age,
             IsAdmin: false,
         });
 
-        console.log(Object.keys(user));
-
-        if (user.ok) {
-            const user = await response.json();
-            await login(user);
+        if (user.message === "User registered successfully.") {
+            await login(user.user);
             return navigate("/home");
         }
     

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { getRequest } from "../Utils/Request";
 import Navbar from "../Components/Navbar";
 import ListGames from "../Components/ListGames";
+import Footer from "../Components/Footer";
 import "../Styles/Navbar.css";
 
 function Search() {
@@ -50,6 +51,7 @@ function Search() {
         <div>
             <Navbar></Navbar>
             <ListGames games={games} title={search} type={type}></ListGames>
+            <Footer></Footer>
         </div>
     );
 }

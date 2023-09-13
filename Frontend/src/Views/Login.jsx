@@ -32,15 +32,13 @@ function Login() {
             Password: password,
         });
 
-        console.log(response.response)
-        console.log(email + " "+ password)
+        console.log(response);
+        console.log(email + " " + password);
 
-        if (response.ok) {
-            const user = await response.json();
-            await login(user);
+        if (response.message === "User signed in successfully.") {
+            await login(response.user);
             return navigate("/home");
         }
-    
     };
 
     return (
@@ -131,28 +129,40 @@ function Login() {
                                             type="button"
                                             className="btn btn-link btn-floating mx-1"
                                         >
-                                            <i className="bi bi-facebook" style={{color:"#eb5e28"}}></i>
+                                            <i
+                                                className="bi bi-facebook"
+                                                style={{ color: "#eb5e28" }}
+                                            ></i>
                                         </button>
 
                                         <button
                                             type="button"
                                             className="btn btn-link btn-floating mx-1"
                                         >
-                                            <i className="bi bi-google" style={{color:"#eb5e28"}}></i>
+                                            <i
+                                                className="bi bi-google"
+                                                style={{ color: "#eb5e28" }}
+                                            ></i>
                                         </button>
 
                                         <button
                                             type="button"
                                             className="btn btn-link btn-floating mx-1"
                                         >
-                                            <i className="bi bi-twitter" style={{color:"#eb5e28"}}></i>
+                                            <i
+                                                className="bi bi-twitter"
+                                                style={{ color: "#eb5e28" }}
+                                            ></i>
                                         </button>
 
                                         <button
                                             type="button"
                                             className="btn btn-link btn-floating mx-1"
                                         >
-                                            <i className="bi bi-github" style={{color:"#eb5e28"}}></i>
+                                            <i
+                                                className="bi bi-github"
+                                                style={{ color: "#eb5e28" }}
+                                            ></i>
                                         </button>
                                     </div>
                                 </form>

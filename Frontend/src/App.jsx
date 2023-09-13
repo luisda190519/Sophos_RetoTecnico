@@ -13,6 +13,7 @@ import PageNotFound from "./Views/PageNotFound";
 import { AuthProvider } from "./Utils/AuthContext";
 import Search from "./Views/Search";
 import ExpandedGame from "./Views/ExpandedGame";
+import AdminPanel from "./Views/AdminPanel";
 
 function App() {
     return (
@@ -26,6 +27,7 @@ function App() {
                     <Route path="/signup" Component={Signup} />
                     <Route path="/game/:type/:search" Component={Search} />
                     <Route path="/game/:gameID" Component={ExpandedGame} />
+                    <Route path="/adminPanel" Component={AdminPanel} />
                     <Route path="*" Component={PageNotFound} />
                 </Routes>
             </BrowserRouter>

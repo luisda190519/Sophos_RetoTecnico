@@ -25,6 +25,7 @@ namespace PlayPalace_backend.DTO
 
         [Required]
         public int Age { get; set; }
+        public bool IsAdmin { get; set; }
 
         [Required]
         [EmailAddress]

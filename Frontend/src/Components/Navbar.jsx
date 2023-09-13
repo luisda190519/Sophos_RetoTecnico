@@ -18,6 +18,8 @@ function Navbar() {
         return navigate(place);
     };
 
+    console.log(userAuthenticated)
+
     const toggleSearch = () => {
         setSearchVisible(!searchVisible);
         if (!searchVisible) {
@@ -26,6 +28,12 @@ function Navbar() {
             }, 0);
         }
     };
+
+    const handleLogOut = function(e){
+        e.preventDefault();
+        logout();
+        nav(e, "/home")
+    }
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -217,11 +225,12 @@ function Navbar() {
                             </div>
                         </div>
                         <div className="col-2 d-flex justify-content-end align-items-center">
-                            {user ? (
+                            {userAuthenticated ? (
                                 <div className="">
+                                    {userAuthenticated.isAdmin ? <button className="btn btn-secondary me-3 mb-3" onClick={e=> nav(e, "/adminPanel")}>Admin panel</button>  : <div></div> }
                                     <i className="bi bi-cart text-white fs-3 me-3 click"></i>
                                     <i className="bi bi-person-circle fs-3 click me-3"></i>
-                                    <i className="bi bi-box-arrow-right fs-3 click "></i>
+                                    <i className="bi bi-box-arrow-right fs-3 click " onClick={e => handleLogOut(e)}></i>
                                 </div>
                             ) : (
                                 <div>

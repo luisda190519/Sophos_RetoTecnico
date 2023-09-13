@@ -32,26 +32,31 @@ namespace PlayPalace_backend.Controllers
 
             var user = new ApplicationUser
             {
-                Name = signUpDto.Name,
-                LastName = signUpDto.LastName,
-                Address = signUpDto.Address,
-                Cellphone = signUpDto.Cellphone,
-                Gender = signUpDto.Gender,
-                DocumentType = signUpDto.DocumentType,
-                Documento = signUpDto.Documento,
-                Age = signUpDto.Age,
-                UserName = signUpDto.Email, // Use email as the username
-                Email = signUpDto.Email
+                // ... (create user object)
             };
 
             var result = await _userManager.CreateAsync(user, signUpDto.Password);
 
             if (result.Succeeded)
             {
-                // You can optionally sign in the user here
+                // User registration was successful
                 await _signInManager.SignInAsync(user, isPersistent: false);
 
-                return Ok(new { message = "User registered successfully." });
+                // Include additional user information in the response
+                var userResponse = new
+                {
+                    UserId = user.Id,
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    IsAdmin = user.IsAdmin
+                    // Include other user properties as needed
+                };
+
+                return Ok(new
+                {
+                    message = "User registered successfully.",
+                    user = userResponse // Include user information in the response
+                });
             }
 
             // If registration fails, return the error messages
@@ -77,7 +82,23 @@ namespace PlayPalace_backend.Controllers
             if (result.Succeeded)
             {
                 // User is signed in successfully
-                return Ok(new { message = "User signed in successfully." });
+                var user = await _userManager.FindByEmailAsync(signInDto.Email);
+
+                // Include additional user information in the response
+                var userResponse = new
+                {
+                    UserId = user.Id,
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    IsAdmin = user.IsAdmin
+                    // Include other user properties as needed
+                };
+
+                return Ok(new
+                {
+                    message = "User signed in successfully.",
+                    user = userResponse // Include user information in the response
+                });
             }
 
             if (result.IsLockedOut)
@@ -87,6 +108,7 @@ namespace PlayPalace_backend.Controllers
 
             return BadRequest(new { error = "Invalid login attempt." });
         }
+
 
         [HttpPost("signout")]
         public async Task<IActionResult> SignOut()

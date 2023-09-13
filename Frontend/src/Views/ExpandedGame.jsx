@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getRequest } from "../Utils/Request";
 import Navbar from "../Components/Navbar";
+import Footer from "../Components/Footer";
 
 function ExpandedGame() {
     const [game, setGame] = useState([]);
@@ -164,6 +165,7 @@ function ExpandedGame() {
                     </div>
                 </div>
             </div>
+            <Footer></Footer>
         </div>
     );
 }
