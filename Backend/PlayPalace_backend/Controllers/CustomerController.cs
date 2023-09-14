@@ -56,6 +56,27 @@ namespace PlayPalace_backend.Controllers
             return Ok(user); // Return a 200 OK response with the user (customer) details.
         }
 
+        [HttpGet("mostfrequentcustomers")]
+        public async Task<IActionResult> GetMostFrequentCustomers()
+        {
+            var customers = await _userManager.Users.ToListAsync(); // Get all customers
+
+            var mostFrequentCustomers = customers
+                .Select(customer => new
+                {
+                    CustomerId = customer.Id,
+                    Name = customer.Name,
+                    LastName = customer.LastName,
+                    Email = customer.Email,
+                    RentalCount = _context.Rentals.Count(r => r.customerID == customer.Id)
+                })
+                .OrderByDescending(customer => customer.RentalCount) // Order by rental count
+                .Take(10) // Get the top 10 most frequent customers (you can change the number)
+                .ToList();
+
+            return Ok(mostFrequentCustomers);
+        }
+
 
         [HttpGet("{id}/history")]
         public async Task<IActionResult> GetCustomerInfo(int id)
@@ -71,7 +92,7 @@ namespace PlayPalace_backend.Controllers
             // Calculate the customer's balance (total amount spent on rentals)
             double customerBalance = _context.Rentals
                 .Where(r => r.customerID == id)
-                .Sum(r => r.Price);
+                .Sum(r => r.TotalBalance);
 
             // Get the customer's rented games and delivery dates
             var rentedGames = _context.Rentals

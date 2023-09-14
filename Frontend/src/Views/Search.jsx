@@ -51,7 +51,6 @@ function Search() {
         <div>
             <Navbar></Navbar>
             <ListGames games={games} title={search} type={type}></ListGames>
-            <Footer></Footer>
         </div>
     );
 }

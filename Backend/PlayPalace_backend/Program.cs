@@ -26,6 +26,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(options =>
     options.SignIn.RequireConfirmedEmail = false;
     options.SignIn.RequireConfirmedPhoneNumber = false;
 
+
     options.Tokens.ProviderMap[TokenOptions.DefaultProvider] = new TokenProviderDescriptor(
         typeof(DataProtectorTokenProvider<ApplicationUser>));
 

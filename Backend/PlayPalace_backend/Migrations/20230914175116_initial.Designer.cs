@@ -12,8 +12,8 @@ using PlayPalace_backend.Context;
 namespace PlayPalace_backend.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    [Migration("20230909213536_changes")]
-    partial class changes
+    [Migration("20230914175116_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -373,10 +373,6 @@ namespace PlayPalace_backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -416,9 +412,6 @@ namespace PlayPalace_backend.Migrations
                     b.Property<int?>("ApplicationUserId")
                         .HasColumnType("int");
 
-                    b.Property<double>("DailyRate")
-                        .HasColumnType("float");
-
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime2");
 
@@ -432,11 +425,11 @@ namespace PlayPalace_backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
                     b.Property<DateTime>("RentalDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<double>("TotalBalance")
+                        .HasColumnType("float");
 
                     b.Property<int>("customerID")
                         .HasColumnType("int");

@@ -24,8 +24,6 @@ function GameSets({ title, type }) {
             .then((response) => {
                 const dataArray = normalizeData(response);
                 setData(dataArray);
-                console.log(type);
-                console.log(dataArray);
             })
             .catch((error) => {
                 console.error("Error fetching data:", error);

@@ -83,7 +83,7 @@ namespace PlayPalace_backend.Controllers
                     RentalCount = g.Count()
                 })
                 .OrderByDescending(g => g.RentalCount)
-                .Take(10) // You can adjust the number of games you want to retrieve
+                .Take(50) // You can adjust the number of games you want to retrieve
                 .ToListAsync();
 
             if (mostRentedGames.Count == 0)
@@ -97,6 +97,7 @@ namespace PlayPalace_backend.Controllers
             var games = await _context.Games
                 .Where(g => gameIds.Contains(g.GameID))
                 .ToListAsync();
+
 
             return Ok(games); // Return a 200 OK response with the list of most rented games.
         }
@@ -182,37 +183,6 @@ namespace PlayPalace_backend.Controllers
         }
 
 
-
-        // Change the daily rate for a rental
-        [HttpPut("{id}/changedailyrate")]
-        public async Task<ActionResult<Rental>> ChangeDailyRate(int id, [FromBody] double dailyRate)
-        {
-            var rental = await _context.Rentals.FindAsync(id);
-
-            if (rental == null)
-            {
-                return NotFound("Rental not found."); // Return a 404 Not Found response if the rental is not found.
-            }
-
-            rental.DailyRate = dailyRate;
-
-            // Recalculate the rental price based on the updated daily rate
-            rental.CalculateRentalPrice();
-
-            _context.Entry(rental).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-                return Ok(rental); // Return a 200 OK response with the updated rental data.
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to update rental.");
-            }
-        }
-
-   
 
     }
 }

@@ -98,7 +98,7 @@ function Signup() {
             return navigate("/home");
         }
     
-        console.log("Invalid username or password");
+        console.log(user);
     };
 
     return (

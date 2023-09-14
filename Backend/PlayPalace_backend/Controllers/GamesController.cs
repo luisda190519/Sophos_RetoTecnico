@@ -240,6 +240,47 @@ namespace PlayPalace_backend.Controllers
             return Ok(games);
         }
 
+        [HttpGet("titles-and-prices")]
+        public async Task<ActionResult<IEnumerable<GameDTO>>> GetGamesWithTitlesAndPrices()
+        {
+            var gamesWithTitlesAndPrices = await _context.Games
+                .Select(g => new GameDTO
+                {
+                    GameID = g.GameID,
+                    Title = g.Title,
+                    RentalPrice = g.Price
+                })
+                .ToListAsync();
+
+            return Ok(gamesWithTitlesAndPrices);
+        }
+
+        [HttpPut("{id}/changegameprice/{newPrice}")]
+        public async Task<ActionResult<Rental>> ChangeGamePrice(int id, double newPrice)
+        {
+            var game = await _context.Games.FindAsync(id);
+
+            if (game == null)
+            {
+                return NotFound("Rental not found."); // Return a 404 Not Found response if the rental is not found.
+            }
+
+            if (game.Price != null)
+            {
+                game.Price = newPrice;
+            }
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return Ok(game); // Return a 200 OK response with the updated rental data.
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to update rental.");
+            }
+        }
+
 
 
         //Create a game

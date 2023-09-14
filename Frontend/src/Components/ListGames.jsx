@@ -14,7 +14,6 @@ function ListGames({ games, title, type }) {
     const handleSelect = function (e, type) {
         e.preventDefault();
         setTypeSearch(e.target.value);
-        console.log(e.target.value);
     };
 
     const handleInputChange = function (e) {
@@ -41,9 +40,13 @@ function ListGames({ games, title, type }) {
                     </div>
                 ) : type === "brand" ? (
                     <div>Juegos hecho por la empresa {title} </div>
-                ) : type==="year" ? (
+                ) : type === "year" ? (
                     <div>Juegos lanzados en el año {title}</div>
-                ): <div>Juegos con el/la Protagonista llamado {title}</div> }
+                ) : type === "mc" ? (
+                    <div>Juegos con el/la Protagonista llamado {title}</div>
+                ) : (
+                    <div></div>
+                )}
             </h1>
             {games === "cargando" ? (
                 <div></div>

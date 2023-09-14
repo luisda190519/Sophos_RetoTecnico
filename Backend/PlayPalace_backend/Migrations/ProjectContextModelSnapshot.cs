@@ -370,10 +370,6 @@ namespace PlayPalace_backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -413,9 +409,6 @@ namespace PlayPalace_backend.Migrations
                     b.Property<int?>("ApplicationUserId")
                         .HasColumnType("int");
 
-                    b.Property<double>("DailyRate")
-                        .HasColumnType("float");
-
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime2");
 
@@ -429,11 +422,11 @@ namespace PlayPalace_backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
                     b.Property<DateTime>("RentalDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<double>("TotalBalance")
+                        .HasColumnType("float");
 
                     b.Property<int>("customerID")
                         .HasColumnType("int");

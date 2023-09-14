@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PlayPalace_backend.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -39,6 +39,7 @@ namespace PlayPalace_backend.Migrations
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DocumentType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Documento = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsAdmin = table.Column<bool>(type: "bit", nullable: false),
                     Age = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -218,6 +219,7 @@ namespace PlayPalace_backend.Migrations
                     Producer = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<double>(type: "float", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ApplicationUserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -285,7 +287,6 @@ namespace PlayPalace_backend.Migrations
                     CharacterID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     GameID = table.Column<int>(type: "int", nullable: false)
                 },
@@ -310,8 +311,7 @@ namespace PlayPalace_backend.Migrations
                     GameID = table.Column<int>(type: "int", nullable: false),
                     RentalDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Price = table.Column<double>(type: "float", nullable: false),
-                    DailyRate = table.Column<double>(type: "float", nullable: false),
+                    TotalBalance = table.Column<double>(type: "float", nullable: false),
                     PayMethod = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Finished = table.Column<bool>(type: "bit", nullable: false),
                     ApplicationUserId = table.Column<int>(type: "int", nullable: true)

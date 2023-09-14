@@ -7,8 +7,7 @@
         public int GameID { get; set; }
         public DateTime RentalDate { get; set; }
         public DateTime DueDate { get; set; }
-        public Double Price { get; set; }
-        public Double DailyRate { get; set; }
+        public Double TotalBalance { get; set; }
         public String PayMethod { get; set; }
         public Boolean Finished { get; set; }
 
@@ -17,11 +16,19 @@
 
         public void CalculateRentalPrice()
         {
-            TimeSpan rentalPeriod = DueDate - RentalDate;
-            int numberOfDays = (int)rentalPeriod.TotalDays;
-            Price = numberOfDays * (Game.Price + this.DailyRate); 
-            this.Price = Price;
+            if (Game != null)
+            {
+                TimeSpan rentalPeriod = DueDate - RentalDate;
+                int numberOfDays = (int)rentalPeriod.TotalDays;
+                TotalBalance = numberOfDays * (Game.Price);
+                this.TotalBalance = TotalBalance;
+            }
+            else
+            {
+                TotalBalance = 0; 
+            }
         }
+
 
     }
 }

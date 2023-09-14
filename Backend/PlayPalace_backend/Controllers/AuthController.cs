@@ -32,8 +32,19 @@ namespace PlayPalace_backend.Controllers
 
             var user = new ApplicationUser
             {
-                // ... (create user object)
+                UserName = signUpDto.Email, // Set UserName to the email address
+                Email = signUpDto.Email,
+                Name = signUpDto.Name,
+                LastName = signUpDto.LastName,
+                Address = signUpDto.Address,
+                Cellphone = signUpDto.Cellphone,
+                Gender = signUpDto.Gender,
+                DocumentType = signUpDto.DocumentType,
+                Documento = signUpDto.Documento,
+                Age = signUpDto.Age,
+                IsAdmin = signUpDto.IsAdmin
             };
+
 
             var result = await _userManager.CreateAsync(user, signUpDto.Password);
 

@@ -21,10 +21,10 @@ VALUES
     ('Nintendo');
 
 
-INSERT INTO AspNetUsers (UserName, PasswordHash, Name, LastName, Address, Email, Cellphone, Gender, DocumentType, Documento, Age, IsAdmin)
+INSERT INTO AspNetUsers (PasswordHash, Name, LastName, Address, Email, Cellphone, Gender, DocumentType, Documento, Age, IsAdmin)
 VALUES
-    ('juan123', 'AQAAAAEAACcQAAAAEPuC9VEPNOrIMdc952hjqBp/4XIl7/fckpbMBJw18nWItQOTiqW2Sc9dtc5njK0xvg==', 'Juan', 'Pérez', 'Calle Principal 123', 'juan@example.com', '123-456-7890', 'Masculino', 'Pasaporte', '123467898', 18, 1),
-    ('maria123', 'AQAAAAEAACcQAAAAEI2Q5144FBbv+b5YjVbfSoM5Isky6abgvuU4/ysMuuCWpuBCd5yU6s3W8sEDwhk19A==', 'María', 'González', 'Avenida Elm 456', 'maria@example.com', '987-654-3210', 'Femenino', 'Cedula' , '4654678646', 21, 0);
+    ('AQAAAAEAACcQAAAAEPuC9VEPNOrIMdc952hjqBp/4XIl7/fckpbMBJw18nWItQOTiqW2Sc9dtc5njK0xvg==', 'Juan', 'Pérez', 'Calle Principal 123', 'juan@example.com', '123-456-7890', 'Masculino', 'Pasaporte', '123467898', 18, 1),
+    ('AQAAAAEAACcQAAAAEI2Q5144FBbv+b5YjVbfSoM5Isky6abgvuU4/ysMuuCWpuBCd5yU6s3W8sEDwhk19A==', 'María', 'González', 'Avenida Elm 456', 'maria@example.com', '987-654-3210', 'Femenino', 'Cedula' , '4654678646', 21, 0);
 
 INSERT INTO Customers(ApplicationUserId)
 VALUES
@@ -93,11 +93,11 @@ VALUES
     ('Master Chief', 'https://static.wikia.nocookie.net/doblaje/images/8/82/Jefe_maestro_117_recortado.jpg/revision/latest/scale-to-width-down/1200?cb=20220403185716&path-prefix=es', 12);
 
 
-INSERT INTO Rentals (CustomerID, GameID, RentalDate, DueDate, DailyRate, PayMethod, Finished, Price)
+INSERT INTO Rentals (CustomerID, GameID, RentalDate, DueDate, PayMethod, Finished, TotalBalance)
 VALUES
-    (1, 1, DATEADD(day, -7, GETDATE()), DATEADD(day, 7, GETDATE()), 6, 'Credit Card', 0, 15),
-    (2, 2, DATEADD(day, -10, GETDATE()), DATEADD(day, 10, GETDATE()), 5, 'PayPal', 1, 26),
-	(1, 3, DATEADD(day, -10, GETDATE()), DATEADD(day, 10, GETDATE()), 5, 'PayPal', 1, 26),
-	(2, 4, DATEADD(day, -10, GETDATE()), DATEADD(day, 10, GETDATE()), 5, 'PayPal', 1, 26),
-	(1, 5, DATEADD(day, -10, GETDATE()), DATEADD(day, 10, GETDATE()), 5, 'PayPal', 1, 26),
-	(2, 6, DATEADD(day, -10, GETDATE()), DATEADD(day, 10, GETDATE()), 5, 'PayPal', 1, 26);
+    (1, 1, DATEADD(day, -7, GETDATE()), DATEADD(day, 7, GETDATE()), 'Credit Card', 0, 15),
+    (2, 2, DATEADD(day, -10, GETDATE()), DATEADD(day, 10, GETDATE()), 'PayPal', 1, 26),
+	(1, 3, DATEADD(day, -10, GETDATE()), DATEADD(day, 10, GETDATE()), 'PayPal', 1, 26),
+	(2, 4, DATEADD(day, -10, GETDATE()), DATEADD(day, 10, GETDATE()), 'PayPal', 1, 26),
+	(1, 5, DATEADD(day, -10, GETDATE()), DATEADD(day, 10, GETDATE()), 'PayPal', 1, 26),
+	(2, 6, DATEADD(day, -10, GETDATE()), DATEADD(day, 10, GETDATE()), 'PayPal', 1, 26);

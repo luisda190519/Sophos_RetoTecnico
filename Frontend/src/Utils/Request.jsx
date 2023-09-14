@@ -12,7 +12,7 @@ export const getRequest = async (name) => {
 
 export const postRequest = async (name, payload) => {
     return await axios
-        .post(URL + name, payload, { withCredentials: true })
+        .post(URL + name, payload)
         .then((resp) => resp.data)
         .catch((err) => err);
 };

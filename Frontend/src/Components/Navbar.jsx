@@ -18,8 +18,6 @@ function Navbar() {
         return navigate(place);
     };
 
-    console.log(userAuthenticated)
-
     const toggleSearch = () => {
         setSearchVisible(!searchVisible);
         if (!searchVisible) {
@@ -37,7 +35,6 @@ function Navbar() {
 
     const handleSearch = (e) => {
         e.preventDefault();
-        console.log("first")
         navigate(`/game/name/${searchQuery}`);
     };
 
