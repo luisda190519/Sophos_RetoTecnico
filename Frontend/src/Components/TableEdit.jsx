@@ -25,7 +25,6 @@ function TableEdit({ headValues, data }) {
   }, [data]);
 
   if (!editedData || editedData.length === 0) {
-    // Render a message or loading indicator when data is empty or null
     return <div>Loading...</div>;
   }
 

@@ -103,14 +103,15 @@ function ListGames({ games, title, type }) {
                         <div className="col-6">
                             <input
                                 type="text"
-                                className="form-contro w-100 py-2 mt-1"
+                                className="form-contro w-100 py-2 mt-1 text-white"
                                 onChange={(e) => handleInputChange(e)}
+                                placeholder="Digite un valor a buscar"
                             />
                         </div>
                         <div className="col-6 py-2">
                             <div className="input-group">
                                 <select
-                                    className="form-select"
+                                    className="form-select text-white"
                                     id="inputGroupSelect04"
                                     aria-label="Example select with button addon"
                                     onChange={(e) => handleSelect(e)}
