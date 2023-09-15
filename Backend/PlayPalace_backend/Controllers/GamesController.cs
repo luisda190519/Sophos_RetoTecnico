@@ -281,22 +281,160 @@ namespace PlayPalace_backend.Controllers
             }
         }
 
-
-
-        //Create a game
-        [HttpPost]
-        public async Task<ActionResult<Game>> CreateGame([FromBody] Game game)
+        [HttpGet("GetBrandById/{id}")]
+        public async Task<ActionResult<Brand>> GetBrandById(int id)
         {
+            var brand = await _context.Brands.FindAsync(id);
+
+            if (brand == null)
+            {
+                return NotFound("Brand not found.");
+            }
+
+            return Ok(brand);
+        }
+
+        // GET: api/Games/GetPlatformById/5
+        [HttpGet("GetPlatformById/{id}")]
+        public async Task<ActionResult<Platform>> GetPlatformById(int id)
+        {
+            var platform = await _context.Platforms.FindAsync(id);
+
+            if (platform == null)
+            {
+                return NotFound("Platform not found.");
+            }
+
+            return Ok(platform);
+        }
+
+        [HttpPost("CreateBrand")]
+        public async Task<ActionResult<Brand>> CreateBrand([FromBody] BrandDTO brandDTO)
+        {
+            if (brandDTO == null)
+            {
+                return BadRequest("Invalid brand data.");
+            }
+
+            var brand = new Brand
+            {
+                Name = brandDTO.Name
+                // You can map other properties as needed
+            };
+
+            _context.Brands.Add(brand);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetBrandById), new { id = brand.BrandID }, brand);
+        }
+
+        // POST: api/Games/CreatePlatform
+        [HttpPost("CreatePlatform")]
+        public async Task<ActionResult<Platform>> CreatePlatform([FromBody] PlatformDTO platformDTO)
+        {
+            if (platformDTO == null)
+            {
+                return BadRequest("Invalid platform data.");
+            }
+
+            var platform = new Platform
+            {
+                Name = platformDTO.Name
+                // You can map other properties as needed
+            };
+
+            _context.Platforms.Add(platform);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetPlatformById), new { id = platform.PlatformID }, platform);
+        }
+
+        [HttpGet("maincharacters/game/{id}")]
+        public async Task<ActionResult<MainCharacterDTO>> GetMainCharacterById(int id)
+        {
+            var mainCharacter = await _context.MainCharacters.FindAsync(id);
+
+            if (mainCharacter == null)
+            {
+                return NotFound("Main character not found.");
+            }
+
+            var mainCharacterDTO = new MainCharacterDTO
+            {
+                MainCharacterID = mainCharacter.CharacterID,
+                Name = mainCharacter.Name,
+                ImageURL = mainCharacter.ImageURL,
+                GameID = mainCharacter.Game.GameID // Include GameID in the response
+            };
+
+            return Ok(mainCharacterDTO);
+        }
+
+
+        [HttpPost("createmaincharacter")]
+        public async Task<ActionResult<MainCharacterDTO>> CreateMainCharacter([FromBody] MainCharacterDTO mainCharacterDTO)
+        {
+            if (mainCharacterDTO == null)
+            {
+                return BadRequest("Invalid main character data.");
+            }
+
+            var game = await _context.Games.FindAsync(mainCharacterDTO.GameID);
+
             if (game == null)
             {
-                return BadRequest("Invalid game data."); // Return a 400 Bad Request response if the game data is invalid.
+                return NotFound("Game not found."); // You may want to handle this case appropriately in your application.
             }
+
+            var mainCharacter = new MainCharacter
+            {
+                Name = mainCharacterDTO.Name,
+                ImageURL = mainCharacterDTO.ImageURL,
+                Game = game // Link the MainCharacter to the existing Game
+            };
+
+            _context.MainCharacters.Add(mainCharacter);
+            await _context.SaveChangesAsync();
+
+            // Convert the created MainCharacter to MainCharacterDTO and return it
+            var createdMainCharacterDTO = new MainCharacterDTO
+            {
+                MainCharacterID = mainCharacter.CharacterID,
+                Name = mainCharacter.Name,
+                ImageURL = mainCharacter.ImageURL,
+                GameID = mainCharacter.Game.GameID
+            };
+
+            return CreatedAtAction(nameof(GetMainCharacterById), new { id = createdMainCharacterDTO.MainCharacterID }, createdMainCharacterDTO);
+        }
+
+        //Create a game
+        [HttpPost("CreateGame")]
+        public async Task<ActionResult<Game>> CreateGame([FromBody] GameDTO2 gameDTO)
+        {
+            if (gameDTO == null)
+            {
+                return BadRequest("Invalid game data.");
+            }
+
+            // Create a new Game instance and map properties from the DTO
+            var game = new Game
+            {
+                Title = gameDTO.Title,
+                Year = new DateTime(gameDTO.Year, 1, 1), // Assuming year is an integer representing the year
+                Director = gameDTO.Director,
+                Producer = gameDTO.Producer,
+                ImageUrl = gameDTO.ImageUrl,
+                Price = gameDTO.Price,
+                Description = gameDTO.Description,
+            };
 
             _context.Games.Add(game);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetGameById), new { id = game.GameID }, game); // Return a 201 Created response with the newly created game.
+            return CreatedAtAction(nameof(GetGameById), new { id = game.GameID }, game);
         }
+
 
 
     }

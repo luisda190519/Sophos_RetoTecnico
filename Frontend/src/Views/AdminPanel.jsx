@@ -6,6 +6,10 @@ import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import TableInfo from "../Components/TableInfo";
 import TableEdit from "../Components/TableEdit";
+import AddEmpresa from "../Components/AddEmpresa";
+import AddGame from "../Components/AddGame";
+import AddPlataforma from "../Components/AddPlataforma";
+import AddMc from "../Components/AddMc";
 
 function AdminPanel() {
     const { userAuthenticated } = useContext(AuthContext);
@@ -69,7 +73,7 @@ function AdminPanel() {
         setRentedByYear(response);
         response = await getRequest("/Games/titles-and-prices");
         setRentedPrices(response);
-        console.log(rentedPrices)
+        console.log(rentedPrices);
     };
 
     useEffect(() => {
@@ -207,14 +211,30 @@ function AdminPanel() {
                                     data={transformDataForTable2(mostRented, [
                                         "gameID",
                                         "title",
-                                        "price"
+                                        "price",
                                     ])}
                                 ></TableEdit>
                             </h3>
                         </div>
                     </div>
+                ) : screen === 1 ? (
+                    <div>
+                        <AddGame setScreen={setScreen}></AddGame>
+                    </div>
+                ) : screen === 2 ? (
+                    <div>
+                        <AddEmpresa setScreen={setScreen}></AddEmpresa>
+                    </div>
+                ) : screen === 3 ? (
+                    <div>
+                        {" "}
+                        <AddPlataforma setScreen={setScreen}></AddPlataforma>
+                    </div>
                 ) : (
-                    <div></div>
+                    <div>
+                        {" "}
+                        <AddMc setScreen={setScreen}></AddMc>{" "}
+                    </div>
                 )}
             </div>
             <Footer></Footer>
