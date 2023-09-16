@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const URL =
-    "http://localhost:5092/api" || "https://playpalace.azurewebsites.net/api";
+import.meta.env.VITE_API_URL || "playpalace.azurewebsites.net/api";
 
 export const getRequest = async (name) => {
     return await axios

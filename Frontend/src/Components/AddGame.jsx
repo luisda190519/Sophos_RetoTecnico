@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { postRequest } from "../Utils/Request";
+import { postRequest, getRequest } from "../Utils/Request";
 
 function AddGame({ setScreen }) {
     const [title, setTitle] = useState("");
@@ -10,6 +10,41 @@ function AddGame({ setScreen }) {
     const [price, setPrice] = useState("");
     const [description, setDescription] = useState("");
     const [showToast, setShowToast] = useState(false);
+    const [platforms, setPlatforms] = useState([]);
+    const [selectedPlataformsId, setSelectedPlataformsId] = useState([]);
+    const [selectedPlataformsName, setSelectedPlataformsName] = useState([]);
+
+    const icons = {
+        Xbox: <i className="bi bi-xbox"></i>,
+        Playstation: <i className="bi bi-playstation"></i>,
+        Nintendo: <i className="bi bi-nintendo-switch"></i>,
+        PC: <i className="bi bi-pc"></i>,
+    };
+
+    const handlePlatformChange = (e) => {
+        let newValue = e.target.value;
+        newValue = newValue.split(",");
+
+        if (!selectedPlataformsId.includes(newValue)) {
+            setSelectedPlataformsId([...selectedPlataformsId, newValue[0]]);
+            setSelectedPlataformsName([...selectedPlataformsName, newValue[1]]);
+        }
+    };
+
+    const deletePlatform = (e, name) => {
+        e.preventDefault();
+
+        const indexToRemove = selectedPlataformsName.indexOf(name);
+
+        if (indexToRemove !== -1) {
+            const newSelectedPlataformsId = [...selectedPlataformsId];
+            const newSelectedPlataformsName = [...selectedPlataformsName];
+            newSelectedPlataformsId.splice(indexToRemove, 1);
+            newSelectedPlataformsName.splice(indexToRemove, 1);
+            setSelectedPlataformsId(newSelectedPlataformsId);
+            setSelectedPlataformsName(newSelectedPlataformsName);
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -22,6 +57,7 @@ function AddGame({ setScreen }) {
             ImageUrl: imageUrl,
             Price: parseFloat(price), // Parse price as a float
             Description: description,
+            platformIds: selectedPlataformsId,
         };
 
         try {
@@ -31,6 +67,15 @@ function AddGame({ setScreen }) {
             console.error("Error creating game:", error);
         }
     };
+
+    const getPlatforms = async function () {
+        const response = await getRequest("/Games/platforms");
+        setPlatforms(response);
+    };
+
+    useEffect(() => {
+        getPlatforms();
+    }, [platforms]);
 
     return (
         <div>
@@ -55,7 +100,7 @@ function AddGame({ setScreen }) {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="year" className="form-label mb-3">
-                        Año
+                        Año de lanzamiento
                     </label>
                     <input
                         type="text"
@@ -112,6 +157,50 @@ function AddGame({ setScreen }) {
                         value={price}
                         onChange={(e) => setPrice(e.target.value)}
                     />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="Plataforma" className="form-label mb-3">
+                        Plataforma
+                    </label>
+                    <div className="mb-3">
+                        {selectedPlataformsName.map((platform, key) => (
+                            <button
+                                type="button"
+                                id="borrar"
+                                className="btn btn-outline-dark rounded-pill me-3 w-25"
+                                style={{
+                                    color: "white",
+                                    backgroundColor: "#272727",
+                                    border: "1px solid",
+                                }}
+                                key={key}
+                                onClick={(e) => deletePlatform(e, platform)}
+                            >
+                                {icons[platform.split(" ")[0]]}
+                                <span className="me-3"></span>
+                                {platform}
+                            </button>
+                        ))}
+                    </div>
+                    <select
+                        className="form-select"
+                        id="gameSelect"
+                        onChange={handlePlatformChange}
+                    >
+                        <option value="" disabled>
+                            Escoge una plataforma...
+                        </option>
+                        {platforms.map((platform) => (
+                            <option
+                                key={platform.platformID}
+                                value={
+                                    platform.platformID + "," + platform.name
+                                }
+                            >
+                                {platform.name}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <div className="mb-5">
                     <label htmlFor="description" className="form-label mb-3">

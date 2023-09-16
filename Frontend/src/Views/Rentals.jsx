@@ -14,7 +14,6 @@ function Rentals() {
             );
 
             if (response.length > 0) {
-                console.log("first");
                 setRentals(response);
             }
         }

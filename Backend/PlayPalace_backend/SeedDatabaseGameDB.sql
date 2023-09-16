@@ -14,10 +14,10 @@ VALUES
 INSERT INTO Platforms (Name)
 VALUES
     ('PC'),
-    ('Xbox'),
-    ('Xbox'),
-    ('Playstation'),
-    ('Playstation'),
+    ('Xbox 360'),
+    ('Xbox One'),
+    ('Playstation 4'),
+    ('Playstation 3 '),
     ('Nintendo');
 
 

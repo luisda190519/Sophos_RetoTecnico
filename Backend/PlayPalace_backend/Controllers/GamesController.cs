@@ -130,7 +130,7 @@ namespace PlayPalace_backend.Controllers
         public async Task<ActionResult<IEnumerable<Game>>> GetGamesByPlatform([FromQuery] string platformName)
         {
             var games = await _context.Games
-                .Where(game => game.Platforms.Any(platform => platform.Name == platformName))
+                .Where(game => game.Platforms.Any(platform => platform.Name.Contains(platformName)))
                 .ToListAsync();
 
             if (games.Count == 0)
@@ -140,6 +140,7 @@ namespace PlayPalace_backend.Controllers
 
             return Ok(games); // Return a 200 OK response with the list of games matching the platform.
         }
+
 
         [HttpGet("platforms/{id}")]
         public async Task<ActionResult<IEnumerable<PlatformDTO>>> GetPlatformsByGameId(int id)
@@ -408,7 +409,6 @@ namespace PlayPalace_backend.Controllers
             return CreatedAtAction(nameof(GetMainCharacterById), new { id = createdMainCharacterDTO.MainCharacterID }, createdMainCharacterDTO);
         }
 
-        //Create a game
         [HttpPost("CreateGame")]
         public async Task<ActionResult<Game>> CreateGame([FromBody] GameDTO2 gameDTO)
         {
@@ -429,6 +429,12 @@ namespace PlayPalace_backend.Controllers
                 Description = gameDTO.Description,
             };
 
+            // Retrieve platforms by their IDs
+            if (gameDTO.PlatformIds != null && gameDTO.PlatformIds.Count > 0)
+            {
+                game.Platforms = await _context.Platforms.Where(p => gameDTO.PlatformIds.Contains(p.PlatformID)).ToListAsync();
+            }
+
             _context.Games.Add(game);
             await _context.SaveChangesAsync();
 
@@ -436,6 +442,19 @@ namespace PlayPalace_backend.Controllers
         }
 
 
+        [HttpGet("platforms")]
+        public async Task<ActionResult<IEnumerable<Platform>>> GetPlatforms()
+        {
+            // Retrieve all platforms
+            var platforms = await _context.Platforms.ToListAsync();
+
+            if (platforms == null || platforms.Count == 0)
+            {
+                return NotFound("No platforms found.");
+            }
+
+            return Ok(platforms);
+        }
 
     }
 }
