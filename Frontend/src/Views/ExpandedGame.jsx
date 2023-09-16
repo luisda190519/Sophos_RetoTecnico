@@ -1,9 +1,10 @@
 import "../Styles/Navbar.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getRequest } from "../Utils/Request";
+import { getRequest, postRequest } from "../Utils/Request";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
+import { AuthContext } from "../Utils/AuthContext";
 
 function ExpandedGame() {
     const [game, setGame] = useState([]);
@@ -13,12 +14,44 @@ function ExpandedGame() {
     const { gameID } = useParams();
     const ratingStars = generateRandomRating();
     const navigate = useNavigate();
+    const { userAuthenticated } = useContext(AuthContext);
+    const [rentalDate, setRentalDate] = useState(new Date());
+    const [dueDate, setDueDate] = useState("");
+    const [payMethod, setPayMethod] = useState("");
 
     const icons = {
         Xbox: <i className="bi bi-xbox"></i>,
         Playstation: <i className="bi bi-playstation"></i>,
         Nintendo: <i className="bi bi-nintendo-switch"></i>,
         PC: <i className="bi bi-pc"></i>,
+    };
+
+    const handleSelect = function (e) {
+        e.preventDefault();
+        setPayMethod(e.target.value);
+    };
+
+    const handleAlquilar = async function (e) {
+        e.preventDefault();
+        const formattedRentalDate = rentalDate.toISOString();
+
+        if (!dueDate) {
+            alert("Please select a due date.");
+            return;
+        }
+
+        const bodyObject = {
+            customerID: userAuthenticated.userId,
+            gameID: gameID,
+            dueDate: dueDate,
+            payMethod: payMethod,
+        };
+
+        const response = await postRequest("/Rental/", bodyObject);
+
+        if (response) {
+            navigate("/home");
+        }
     };
 
     function generateRandomRating() {
@@ -97,18 +130,91 @@ function ExpandedGame() {
                                             {platform.name}
                                         </button>
                                     ))}
+                                    <div className="input-group my-3 text-white">
+                                        <span
+                                            className="input-group-text"
+                                            style={{
+                                                color: "white",
+                                                backgroundColor: "#272727",
+                                                border: "none",
+                                            }}
+                                        >
+                                            Precio
+                                        </span>
+                                        <input
+                                            type="text"
+                                            value={game.price}
+                                            className="form-control"
+                                            disabled
+                                        />
+                                    </div>
+                                    <div className="input-group my-3 text-white">
+                                        <span
+                                            className="input-group-text"
+                                            style={{
+                                                color: "white",
+                                                backgroundColor: "#272727",
+                                                border: "none",
+                                            }}
+                                        >
+                                            Fecha de renta
+                                        </span>
+                                        <input
+                                            type="date"
+                                            className="form-control"
+                                            value={dueDate}
+                                            onChange={(e) =>
+                                                setDueDate(e.target.value)
+                                            }
+                                        />
+                                    </div>
+
+                                    <div className="input-group my-3 text-white">
+                                        <span
+                                            className="input-group-text"
+                                            style={{
+                                                color: "white",
+                                                backgroundColor: "#272727",
+                                                border: "none",
+                                            }}
+                                        >
+                                            Medio de pago
+                                        </span>
+                                        <select
+                                            class="form-select"
+                                            id="inputGroupSelect01"
+                                            onChange={(e) => handleSelect(e)}
+                                        >
+                                            <option selected>Escoge...</option>
+                                            <option value="Tarjeta de credito/debito">
+                                                Tarjeta de credito/debito
+                                            </option>
+                                            <option value="Cuenta bancaria">
+                                                Cuenta bancaria
+                                            </option>
+                                            <option value="Efectivo">
+                                                Efectivo
+                                            </option>
+                                            <option value="Paypal / nequi">
+                                                Paypal / nequi
+                                            </option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="d-flex justify-content-center mt-4">
-                                <button
-                                    className="btn btn-primary w-75"
-                                    style={{
-                                        backgroundColor: "#eb5e28",
-                                        border: "none",
-                                    }}
-                                >
-                                    Alquilar juego
-                                </button>
+                            <div className="d-flex justify-content-center mb-4">
+                                <div className="container">
+                                    <button
+                                        className="btn btn-primary w-100"
+                                        style={{
+                                            backgroundColor: "#eb5e28",
+                                            border: "none",
+                                        }}
+                                        onClick={(e) => handleAlquilar(e)}
+                                    >
+                                        Alquilar juego
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -163,6 +269,17 @@ function ExpandedGame() {
                             </div>
                         </div>
                     </div>
+                </div>
+                <div>
+                    <h2 className="text-white mt-5">Protagonistas:</h2>
+                    {MCS.map((mc, key) => {
+                        return (
+                            <div className="container mb-5">
+                                <h4 className="text-white mt-5">{mc.name}</h4>
+                                <img src={mc.imageURL} className="img-fluid" />
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
             <Footer></Footer>

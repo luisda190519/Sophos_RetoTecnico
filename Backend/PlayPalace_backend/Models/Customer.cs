@@ -9,6 +9,7 @@ namespace PlayPalace_backend.Models
         public int CustomerID { get; set; }
 
         [JsonIgnore]
+        public int? ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
     }
 }

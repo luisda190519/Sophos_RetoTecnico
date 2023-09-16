@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PlayPalace_backend.Context;
 using PlayPalace_backend.DTO;
 using PlayPalace_backend.Models;
@@ -45,13 +46,22 @@ namespace PlayPalace_backend.Controllers
                 IsAdmin = signUpDto.IsAdmin
             };
 
-
             var result = await _userManager.CreateAsync(user, signUpDto.Password);
 
             if (result.Succeeded)
             {
                 // User registration was successful
                 await _signInManager.SignInAsync(user, isPersistent: false);
+
+                // Create a new Customer and associate it with the user
+                var customer = new Customer
+                {
+                    // Populate customer properties...
+                    ApplicationUser = user
+                };
+
+                dbContext.Customers.Add(customer);
+                await dbContext.SaveChangesAsync();
 
                 // Include additional user information in the response
                 var userResponse = new
@@ -74,6 +84,7 @@ namespace PlayPalace_backend.Controllers
             var errors = result.Errors.Select(e => e.Description);
             return BadRequest(new { errors });
         }
+
 
 
         [HttpPost("signin")]

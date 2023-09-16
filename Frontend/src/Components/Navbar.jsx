@@ -2,6 +2,7 @@ import { useState, useEffect, useContext, useRef } from "react";
 import "../Styles/Navbar.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../Utils/AuthContext";
+import { getRequest } from "../Utils/Request";
 
 function Navbar() {
     const [navbarBg, setNavbarBg] = useState("transparent");
@@ -10,6 +11,7 @@ function Navbar() {
     const { logout } = useContext(AuthContext);
     const { userAuthenticated } = useContext(AuthContext);
     const [user, setUser] = useState(userAuthenticated || false);
+    const [rentalsUnfinished, setRentalsUnfinished] = useState([]);
     const searchInputRef = useRef(null);
     const navigate = useNavigate();
 
@@ -27,11 +29,16 @@ function Navbar() {
         }
     };
 
-    const handleLogOut = function(e){
+    const handleLogOut = function (e) {
         e.preventDefault();
         logout();
-        nav(e, "/home")
-    }
+        nav(e, "/home");
+    };
+
+    const handleRental = function (e) {
+        e.preventDefault();
+        nav(e, "/Rentals");
+    };
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -41,12 +48,21 @@ function Navbar() {
     const handleBlur = () => {
         setTimeout(() => {
             setSearchVisible(false);
-        }, 500)
+        }, 500);
     };
 
     const handleAdvance = (e) => {
         e.preventDefault();
         navigate(`/game/advance/advance/`);
+    };
+
+    const getRentals = async function () {
+        if (userAuthenticated) {
+            let response = await getRequest(
+                "/Rental/customer/" + userAuthenticated.userId + "/unfinished"
+            );
+            setRentalsUnfinished(response);
+        }
     };
 
     useEffect(() => {
@@ -64,6 +80,10 @@ function Navbar() {
             window.removeEventListener("scroll", handleScroll);
         };
     }, []);
+
+    useEffect(() => {
+        getRentals();
+    }, [userAuthenticated]);
 
     return (
         <nav
@@ -126,7 +146,9 @@ function Navbar() {
                                                         <button
                                                             className="btn btn-outline-secondary py-2 mt-3"
                                                             type="button"
-                                                            onClick={e => handleSearch(e)}
+                                                            onClick={(e) =>
+                                                                handleSearch(e)
+                                                            }
                                                             id="outer"
                                                         >
                                                             <i
@@ -137,8 +159,8 @@ function Navbar() {
                                                         <button
                                                             className="btn btn-outline-secondary py-2 mt-3 text-white ms-3"
                                                             type="button"
-                                                            onClick={
-                                                                e => handleAdvance(e)
+                                                            onClick={(e) =>
+                                                                handleAdvance(e)
                                                             }
                                                             id="outer"
                                                             style={{
@@ -158,7 +180,10 @@ function Navbar() {
                                                 <a
                                                     className="nav-link"
                                                     onClick={(e) =>
-                                                        nav(e, "/game/platform/PC")
+                                                        nav(
+                                                            e,
+                                                            "/game/platform/PC"
+                                                        )
                                                     }
                                                 >
                                                     PC
@@ -183,7 +208,10 @@ function Navbar() {
                                                 <a
                                                     className="nav-link"
                                                     onClick={(e) =>
-                                                        nav(e, "/game/platform/Xbox")
+                                                        nav(
+                                                            e,
+                                                            "/game/platform/Xbox"
+                                                        )
                                                     }
                                                 >
                                                     Xbox
@@ -224,10 +252,34 @@ function Navbar() {
                         <div className="col-2 d-flex justify-content-end align-items-center">
                             {userAuthenticated ? (
                                 <div className="">
-                                    {userAuthenticated.isAdmin ? <button className="btn btn-secondary me-3 mb-3" onClick={e=> nav(e, "/adminPanel")}>Admin panel</button>  : <div></div> }
-                                    <i className="bi bi-cart text-white fs-3 me-3 click"></i>
+                                    {userAuthenticated.isAdmin ? (
+                                        <button
+                                            className="btn btn-secondary me-3 mb-3"
+                                            onClick={(e) =>
+                                                nav(e, "/adminPanel")
+                                            }
+                                        >
+                                            Admin panel
+                                        </button>
+                                    ) : (
+                                        <div></div>
+                                    )}
+                                    <i
+                                        className="bi bi-cart text-white fs-3 me-3 click position-relative"
+                                        onClick={(e) => handleRental(e)}
+                                    >
+                                        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                            {rentalsUnfinished.length}
+                                            <span className="visually-hidden">
+                                                Rentas
+                                            </span>
+                                        </span>
+                                    </i>
                                     <i className="bi bi-person-circle fs-3 click me-3"></i>
-                                    <i className="bi bi-box-arrow-right fs-3 click " onClick={e => handleLogOut(e)}></i>
+                                    <i
+                                        className="bi bi-box-arrow-right fs-3 click "
+                                        onClick={(e) => handleLogOut(e)}
+                                    ></i>
                                 </div>
                             ) : (
                                 <div>

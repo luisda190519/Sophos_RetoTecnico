@@ -10,6 +10,7 @@ import AddEmpresa from "../Components/AddEmpresa";
 import AddGame from "../Components/AddGame";
 import AddPlataforma from "../Components/AddPlataforma";
 import AddMc from "../Components/AddMc";
+import TableRental from "../Components/TableRental";
 
 function AdminPanel() {
     const { userAuthenticated } = useContext(AuthContext);
@@ -19,6 +20,7 @@ function AdminPanel() {
     const [mostRented, setMostRented] = useState([{}]);
     const [rentedByYear, setRentedByYear] = useState([{}]);
     const [rentedPrices, setRentedPrices] = useState([{}]);
+    const [rentals, setRentals] = useState([{}]);
 
     const nav = function (e, place) {
         e.preventDefault();
@@ -73,7 +75,11 @@ function AdminPanel() {
         setRentedByYear(response);
         response = await getRequest("/Games/titles-and-prices");
         setRentedPrices(response);
-        console.log(rentedPrices);
+        response = await getRequest(
+            "/Rental/unfinished"
+        );
+        console.log(response)
+        setRentals(response)
     };
 
     useEffect(() => {
@@ -214,6 +220,19 @@ function AdminPanel() {
                                         "price",
                                     ])}
                                 ></TableEdit>
+                            </h3>
+                        </div>
+                        <div>
+                            <h3 className="text-white mt-5">
+                                Renta de clientes sin finalizar
+                                <TableRental
+                                    data={transformDataForTable2(rentals, [
+                                        "customerID",
+                                        "gameTitle",
+                                        "totalBalance",
+                                        "rentalID"
+                                    ])}
+                                ></TableRental>
                             </h3>
                         </div>
                     </div>

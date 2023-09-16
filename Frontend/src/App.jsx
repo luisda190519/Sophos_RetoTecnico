@@ -14,6 +14,7 @@ import { AuthProvider } from "./Utils/AuthContext";
 import Search from "./Views/Search";
 import ExpandedGame from "./Views/ExpandedGame";
 import AdminPanel from "./Views/AdminPanel";
+import Rentals from "./Views/Rentals";
 
 function App() {
     return (
@@ -28,6 +29,7 @@ function App() {
                     <Route path="/game/:type/:search" Component={Search} />
                     <Route path="/game/:gameID" Component={ExpandedGame} />
                     <Route path="/adminPanel" Component={AdminPanel} />
+                    <Route path="/Rentals" Component={Rentals} />
                     <Route path="*" Component={PageNotFound} />
                 </Routes>
             </BrowserRouter>

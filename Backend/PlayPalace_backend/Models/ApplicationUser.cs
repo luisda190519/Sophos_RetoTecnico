@@ -29,6 +29,9 @@ namespace PlayPalace_backend.Models
         [Required]
         public int Age { get; set; }
 
+        public int? CustomerId { get; set; }
+        public Customer Customer { get; set; }
+
         // Navigation property for related Rentals
         public ICollection<Rental> Rentals { get; set; }
 

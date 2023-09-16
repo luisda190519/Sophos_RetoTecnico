@@ -212,6 +212,9 @@ namespace PlayPalace_backend.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("CustomerId")
+                        .HasColumnType("int");
+
                     b.Property<string>("DocumentType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -301,12 +304,14 @@ namespace PlayPalace_backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerID"));
 
-                    b.Property<int>("ApplicationUserId")
+                    b.Property<int?>("ApplicationUserId")
                         .HasColumnType("int");
 
                     b.HasKey("CustomerID");
 
-                    b.HasIndex("ApplicationUserId");
+                    b.HasIndex("ApplicationUserId")
+                        .IsUnique()
+                        .HasFilter("[ApplicationUserId] IS NOT NULL");
 
                     b.ToTable("Customers");
                 });
@@ -526,10 +531,8 @@ namespace PlayPalace_backend.Migrations
             modelBuilder.Entity("PlayPalace_backend.Models.Customer", b =>
                 {
                     b.HasOne("PlayPalace_backend.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithOne("Customer")
+                        .HasForeignKey("PlayPalace_backend.Models.Customer", "ApplicationUserId");
 
                     b.Navigation("ApplicationUser");
                 });
@@ -577,6 +580,9 @@ namespace PlayPalace_backend.Migrations
 
             modelBuilder.Entity("PlayPalace_backend.Models.ApplicationUser", b =>
                 {
+                    b.Navigation("Customer")
+                        .IsRequired();
+
                     b.Navigation("Rentals");
 
                     b.Navigation("RentedGames");

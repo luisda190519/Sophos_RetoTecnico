@@ -36,26 +36,41 @@ namespace PlayPalace_backend.Controllers
 
         // Create a rental
         [HttpPost]
-        public async Task<ActionResult<Rental>> CreateRental([FromBody] Rental rental)
+        public async Task<ActionResult<Rental>> CreateRental([FromBody] RentalDTO rentalDTO)
         {
-            if (rental == null)
+            if (rentalDTO == null)
             {
                 return BadRequest("Invalid rental data."); // Return a 400 Bad Request response if the rental data is invalid.
             }
 
             try
             {
+                Console.WriteLine(rentalDTO.CustomerID);
+                Console.WriteLine(rentalDTO.GameID);
                 // Ensure that the customer and game with the specified IDs exist in the database.
-                var customerExists = await _context.Customers.AnyAsync(c => c.CustomerID == rental.customerID);
-                var gameExists = await _context.Games.AnyAsync(g => g.GameID == rental.GameID);
+                var customerExists = await _context.Customers.AnyAsync(c => c.CustomerID == rentalDTO.CustomerID);
+                var gameExists = await _context.Games.AnyAsync(g => g.GameID == rentalDTO.GameID);
+
+                Console.WriteLine(customerExists);
+                Console.WriteLine(gameExists);
 
                 if (!customerExists || !gameExists)
                 {
                     return BadRequest("Invalid customer or game ID."); // Return a 400 Bad Request response if the customer or game ID is not found.
                 }
 
-                rental.RentalDate = DateTime.UtcNow; // Set the rental date to the current UTC time.
-                rental.DueDate = rental.RentalDate.AddDays(7); // Set the due date to one week from the rental date.
+                var game = await _context.Games.FindAsync(rentalDTO.GameID);
+
+                var rental = new Rental
+                {
+                    customerID = rentalDTO.CustomerID,
+                    GameID = rentalDTO.GameID,
+                    RentalDate = DateTime.UtcNow, // Set the rental date to the current UTC time.
+                    DueDate = rentalDTO.DueDate,
+                    PayMethod = rentalDTO.PayMethod,
+                    Finished = false,
+                    Game = game // Associate the game with the rental
+                };
 
                 // Calculate the rental price based on your business logic
                 rental.CalculateRentalPrice(); // Call the CalculateRentalPrice method on the rental object.
@@ -70,6 +85,130 @@ namespace PlayPalace_backend.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error: " + ex.Message);
             }
         }
+
+        [HttpGet("customer/{customerId}")]
+        public async Task<ActionResult<IEnumerable<RentalWithGameTitle>>> GetRentalsByCustomerId(int customerId)
+        {
+            // Retrieve all rentals for the specified customer, including game titles
+            var rentals = await _context.Rentals
+                .Where(r => r.customerID == customerId)
+                .Join(
+                    _context.Games,
+                    rental => rental.GameID,
+                    game => game.GameID,
+                    (rental, game) => new RentalWithGameTitle
+                    {
+                        RentalID = rental.RentalID,
+                        customerID = rental.customerID,
+                        GameID = rental.GameID,
+                        RentalDate = rental.RentalDate,
+                        DueDate = rental.DueDate,
+                        TotalBalance = rental.TotalBalance,
+                        PayMethod = rental.PayMethod,
+                        Finished = rental.Finished,
+                        GameTitle = game.Title // Include the game title
+                    })
+                .ToListAsync();
+
+            if (rentals == null || rentals.Count == 0)
+            {
+                return NotFound("No rentals found for the customer.");
+            }
+
+            return Ok(rentals);
+        }
+
+
+        [HttpGet("customer/{customerId}/unfinished")]
+        public async Task<ActionResult<IEnumerable<RentalWithGameTitle>>> GetUnfinishedRentalsByCustomerId(int customerId)
+        {
+            // Retrieve unfinished rentals for the specified customer, including game titles
+            var unfinishedRentals = await _context.Rentals
+                .Where(r => r.customerID == customerId && !r.Finished)
+                .Join(
+                    _context.Games,
+                    rental => rental.GameID,
+                    game => game.GameID,
+                    (rental, game) => new RentalWithGameTitle
+                    {
+                        RentalID = rental.RentalID,
+                        customerID = rental.customerID,
+                        GameID = rental.GameID,
+                        RentalDate = rental.RentalDate,
+                        DueDate = rental.DueDate,
+                        TotalBalance = rental.TotalBalance,
+                        PayMethod = rental.PayMethod,
+                        Finished = rental.Finished,
+                        GameTitle = game.Title // Include the game title
+                    })
+                .ToListAsync();
+
+            if (unfinishedRentals == null || unfinishedRentals.Count == 0)
+            {
+                return Ok(unfinishedRentals);
+            }
+
+            return Ok(unfinishedRentals);
+        }
+
+        [HttpGet("unfinished")]
+        public async Task<ActionResult<IEnumerable<RentalWithGameTitle>>> GetUnfinishedRentals()
+        {
+            // Retrieve all unfinished rentals, including game titles
+            var unfinishedRentals = await _context.Rentals
+                .Where(r => !r.Finished)
+                .Join(
+                    _context.Games,
+                    rental => rental.GameID,
+                    game => game.GameID,
+                    (rental, game) => new RentalWithGameTitle
+                    {
+                        RentalID = rental.RentalID,
+                        customerID = rental.customerID,
+                        GameID = rental.GameID,
+                        RentalDate = rental.RentalDate,
+                        DueDate = rental.DueDate,
+                        TotalBalance = rental.TotalBalance,
+                        PayMethod = rental.PayMethod,
+                        Finished = rental.Finished,
+                        GameTitle = game.Title // Include the game title
+                    })
+                .ToListAsync();
+
+            if (unfinishedRentals == null || unfinishedRentals.Count == 0)
+            {
+                return NotFound("No unfinished rentals found.");
+            }
+
+            return Ok(unfinishedRentals);
+        }
+
+        [HttpPut("{id}/finish")]
+        public async Task<IActionResult> MarkRentalAsFinished(int id)
+        {
+            // Find the rental by ID
+            var rental = await _context.Rentals.FindAsync(id);
+
+            if (rental == null)
+            {
+                return NotFound("Rental not found.");
+            }
+
+            // Mark the rental as finished
+            rental.Finished = true;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return Ok("Rental marked as finished.");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to update rental status.");
+            }
+        }
+
+
 
         // List the most rented games
         [HttpGet("mostrentedgames")]

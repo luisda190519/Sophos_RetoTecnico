@@ -35,6 +35,11 @@ namespace PlayPalace_backend.Context
                 // Add any other custom configurations for ApplicationUser
             });
 
+            modelBuilder.Entity<ApplicationUser>()
+                .HasOne(u => u.Customer)
+                .WithOne(c => c.ApplicationUser)
+                .HasForeignKey<Customer>(c => c.ApplicationUserId);
+
             modelBuilder.Entity<Game>()
                 .HasMany(g => g.Platforms)
                 .WithMany(p => p.Games)
