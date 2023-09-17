@@ -4,6 +4,7 @@ const URL =
 import.meta.env.VITE_API_URL || "playpalace.azurewebsites.net/api";
 
 export const getRequest = async (name) => {
+    console.log(URL + name)
     return await axios
         .get(URL + name, { withCredentials: true })
         .then((resp) => resp.data)
