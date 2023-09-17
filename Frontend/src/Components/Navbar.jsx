@@ -56,6 +56,8 @@ function Navbar() {
         navigate(`/game/advance/advance/`);
     };
 
+    console.log(userAuthenticated)
+
     const getRentals = async function () {
         if (userAuthenticated) {
             let response = await getRequest(
