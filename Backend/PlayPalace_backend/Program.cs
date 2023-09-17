@@ -51,7 +51,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy",
         builder => builder
-            .WithOrigins("https://playpalace.netlify.app")
+            .WithOrigins("https://650649495e3f570008f4076a--playpalace.netlify.app")
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials());
