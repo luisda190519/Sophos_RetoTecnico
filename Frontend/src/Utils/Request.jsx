@@ -3,6 +3,7 @@ import axios from "axios";
 const URL =
 import.meta.env.VITE_API_URL || "https://playpalace.azurewebsites.net/api";
 
+
 export const getRequest = async (name) => {
     console.log(URL + name)
     return await axios
@@ -13,7 +14,7 @@ export const getRequest = async (name) => {
 
 export const postRequest = async (name, payload) => {
     return await axios
-        .post(URL + name, payload)
+        .post(name, payload)
         .then((resp) => resp.data)
         .catch((err) => err);
 };
