@@ -78,7 +78,7 @@ Ya con todo instalado, base de datos creada y poblada, podemos ejecutar el progr
 
 ## Capturas
 
-Adjunto captura de las principales pantallas de la aplicacio:
+Adjunto captura de las principales pantallas de la aplicacion:
 
 ![App Screenshot](https://raw.githubusercontent.com/luisda190519/Sophos_RetoTecnico/main/images/image1.png?token=GHSAT0AAAAAACIP267Y6NIVQ4KY2ZJOKOCAZJRLQSQ)
 
