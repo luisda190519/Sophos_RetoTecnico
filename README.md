@@ -80,15 +80,15 @@ Ya con todo instalado, base de datos creada y poblada, podemos ejecutar el progr
 
 Adjunto captura de las principales pantallas de la aplicacion:
 
-![App Screenshot](https://raw.githubusercontent.com/luisda190519/Sophos_RetoTecnico/main/images/image1.png?token=GHSAT0AAAAAACIP267Y6NIVQ4KY2ZJOKOCAZJRLQSQ)
+![App Screenshot](https://raw.githubusercontent.com/luisda190519/Sophos_RetoTecnico/main/images/image1.png?token=GHSAT0AAAAAACIP267Y33QJR46PKU2KSYACZJRPDQQ)
 
-![App Screenshot](https://raw.githubusercontent.com/luisda190519/Sophos_RetoTecnico/main/images/image2.png?token=GHSAT0AAAAAACIP267Y7F2N55JMTDNPWKHYZJRLRKA)
+![App Screenshot](https://raw.githubusercontent.com/luisda190519/Sophos_RetoTecnico/main/images/image2.png?token=GHSAT0AAAAAACIP267Z25ER3F7SQRXMARZ4ZJRPEEA)
 
-![App Screenshot](https://raw.githubusercontent.com/luisda190519/Sophos_RetoTecnico/main/images/image3.png?token=GHSAT0AAAAAACIP267ZBUPFGX7GTL2EO42CZJRLROQ)
+![App Screenshot](https://raw.githubusercontent.com/luisda190519/Sophos_RetoTecnico/main/images/image3.png?token=GHSAT0AAAAAACIP267YRWX6CPVT2UA3U2MSZJRPEKQ)
 
-![App Screenshot](https://raw.githubusercontent.com/luisda190519/Sophos_RetoTecnico/main/images/image4.png?token=GHSAT0AAAAAACIP267ZTBOO7VAFGGFLGMUIZJRLRVA)
+![App Screenshot](https://raw.githubusercontent.com/luisda190519/Sophos_RetoTecnico/main/images/image4.png?token=GHSAT0AAAAAACIP267ZV3SUSZRR6CFXWOQGZJRPEPQ)
 
-![App Screenshot](https://raw.githubusercontent.com/luisda190519/Sophos_RetoTecnico/main/images/image5.png?token=GHSAT0AAAAAACIP267Y6NS6ZPYZ5L6DID6MZJRLR3Q)
+![App Screenshot](https://raw.githubusercontent.com/luisda190519/Sophos_RetoTecnico/main/images/image5.png?token=GHSAT0AAAAAACIP267Z2AKIVLTEIOJWLCCOZJRPEUQ)
 ## Tech Stack
 
 **API:** ASP .net, C#
