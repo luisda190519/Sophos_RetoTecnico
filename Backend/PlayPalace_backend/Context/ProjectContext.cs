@@ -31,8 +31,6 @@ namespace PlayPalace_backend.Context
                 entity.Ignore(e => e.EmailConfirmed);
                 entity.Ignore(e => e.TwoFactorEnabled);
                 entity.Ignore(e => e.LockoutEnabled);
-
-                // Add any other custom configurations for ApplicationUser
             });
 
             modelBuilder.Entity<ApplicationUser>()

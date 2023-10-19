@@ -20,7 +20,7 @@ function Separator() {
                         <div className="row align-items-center">
                             <div className="col-2 mx-2">
                                 <i
-                                    class="bi bi-shield-check fs-1"
+                                    className="bi bi-shield-check fs-1"
                                     style={{ color: "#ff4020" }}
                                 ></i>
                             </div>
@@ -41,7 +41,7 @@ function Separator() {
                         <div className="row align-items-center">
                             <div className="col-2 mx-2">
                                 <i
-                                    class="bi bi-chat-dots fs-1"
+                                    className="bi bi-chat-dots fs-1"
                                     style={{ color: "#ff4020" }}
                                 ></i>
                             </div>
@@ -62,7 +62,7 @@ function Separator() {
                         <div className="row align-items-center">
                             <div className="col-2 mx-2">
                                 <i
-                                    class="bi bi-star fs-1"
+                                    className="bi bi-star fs-1"
                                     style={{ color: "#ff4020" }}
                                 ></i>
                             </div>

@@ -47,7 +47,6 @@ namespace PlayPalace_backend.Controllers
             {
                 Console.WriteLine(rentalDTO.CustomerID);
                 Console.WriteLine(rentalDTO.GameID);
-                // Ensure that the customer and game with the specified IDs exist in the database.
                 var customerExists = await _context.Customers.AnyAsync(c => c.CustomerID == rentalDTO.CustomerID);
                 var gameExists = await _context.Games.AnyAsync(g => g.GameID == rentalDTO.GameID);
 
@@ -222,7 +221,7 @@ namespace PlayPalace_backend.Controllers
                     RentalCount = g.Count()
                 })
                 .OrderByDescending(g => g.RentalCount)
-                .Take(50) // You can adjust the number of games you want to retrieve
+                .Take(50) 
                 .ToListAsync();
 
             if (mostRentedGames.Count == 0)
@@ -300,10 +299,10 @@ namespace PlayPalace_backend.Controllers
                     .OrderBy(gg => gg.Count())
                     .FirstOrDefault()?.Key;
 
-                // Retrieve the least rented game(s) based on the GameID
+                // Retrieve the least rented games based on the GameID
                 var leastRentedGame = _context.Games.Find(leastRentedGames);
 
-                // Add the least rented game(s) to the dictionary
+                // Add the least rented games to the dictionary
                 leastRentedGamesByAgeRange[ageRange] = new List<Game> { leastRentedGame };
             }
 
@@ -313,8 +312,7 @@ namespace PlayPalace_backend.Controllers
         // Helper method to determine the age range based on age
         private string GetAgeRange(int age)
         {
-            // Implement your logic to determine the age range based on the age
-            // For example, you can use Math.Floor(age / 10) * 10 to group by 10-year ranges.
+
             int lowerBound = (int)Math.Floor((double)age / 10) * 10;
             int upperBound = lowerBound + 9;
 

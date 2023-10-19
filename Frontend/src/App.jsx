@@ -22,7 +22,6 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Navigate to="/home" />} />
-                    
                     <Route path="/home" Component={Home} />
                     <Route path="/login" Component={Login} />
                     <Route path="/signup" Component={Signup} />

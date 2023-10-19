@@ -1,25 +1,32 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function ListGames({ games, title, type }) {
+    // Initialize navigation
     const navigate = useNavigate();
+
+    // State variables for search type and input
     const [typeSearch, setTypeSearch] = useState(type);
     const [search, setSearch] = useState("");
 
+    // Function to handle game click
     const handleGameClick = (e, id) => {
         e.preventDefault();
         return navigate("/game/" + id);
     };
 
+    // Function to handle the selection of a search type
     const handleSelect = function (e, type) {
         e.preventDefault();
         setTypeSearch(e.target.value);
     };
 
+    // Function to handle input change
     const handleInputChange = function (e) {
         setSearch(e.target.value);
     };
 
+    // Function to handle search advance
     const handleSearchAdvance = function (e) {
         e.preventDefault();
         return navigate("/game/" + typeSearch + "/" + search);
@@ -28,6 +35,7 @@ function ListGames({ games, title, type }) {
     return (
         <div className="container" style={{ marginTop: "10em" }}>
             <h1 className="text-white mb-5">
+                {/* Title based on the search type */}
                 {type === "platform" ? (
                     <div>{title} games</div>
                 ) : type === "name" ? (

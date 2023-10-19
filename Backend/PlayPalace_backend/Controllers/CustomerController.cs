@@ -71,7 +71,7 @@ namespace PlayPalace_backend.Controllers
                     RentalCount = _context.Rentals.Count(r => r.customerID == customer.Id)
                 })
                 .OrderByDescending(customer => customer.RentalCount) // Order by rental count
-                .Take(10) // Get the top 10 most frequent customers (you can change the number)
+                .Take(10) // Get the top 10 most frequent customers 
                 .ToList();
 
             return Ok(mostFrequentCustomers);
@@ -89,7 +89,7 @@ namespace PlayPalace_backend.Controllers
                 return NotFound("User not found");
             }
 
-            // Calculate the customer's balance (total amount spent on rentals)
+            // Calculate the customer's balance 
             double customerBalance = _context.Rentals
                 .Where(r => r.customerID == id)
                 .Sum(r => r.TotalBalance);

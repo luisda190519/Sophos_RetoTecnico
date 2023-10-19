@@ -56,21 +56,18 @@ namespace PlayPalace_backend.Controllers
                 // Create a new Customer and associate it with the user
                 var customer = new Customer
                 {
-                    // Populate customer properties...
                     ApplicationUser = user
                 };
 
                 dbContext.Customers.Add(customer);
                 await dbContext.SaveChangesAsync();
 
-                // Include additional user information in the response
                 var userResponse = new
                 {
                     UserId = user.Id,
                     UserName = user.UserName,
                     Email = user.Email,
                     IsAdmin = user.IsAdmin
-                    // Include other user properties as needed
                 };
 
                 return Ok(new
@@ -84,7 +81,6 @@ namespace PlayPalace_backend.Controllers
             var errors = result.Errors.Select(e => e.Description);
             return BadRequest(new { errors });
         }
-
 
 
         [HttpPost("signin")]
@@ -113,7 +109,6 @@ namespace PlayPalace_backend.Controllers
                     UserName = user.UserName,
                     Email = user.Email,
                     IsAdmin = user.IsAdmin
-                    // Include other user properties as needed
                 };
 
                 return Ok(new

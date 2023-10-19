@@ -73,7 +73,7 @@ namespace PlayPalace_backend.Controllers
                 return NotFound("No games found for the specified main character."); // Return a 404 response if no games are found.
             }
 
-            return Ok(games); // Return a 200 OK response with the list of games containing the main character(s).
+            return Ok(games); // Return a 200 OK response with the list of games containing the main characters.
         }
 
         //List games by producer or brand
@@ -158,12 +158,12 @@ namespace PlayPalace_backend.Controllers
             {
                 PlatformID = p.PlatformID,
                 Name = p.Name,
-                // Initialize other properties as needed
             });
 
             return Ok(platforms);
         }
 
+        // get by id of the main character
         [HttpGet("maincharacters/{id}")]
         public async Task<ActionResult<IEnumerable<MainCharacterDTO>>> GetMainCharactersByGameId(int id)
         {
@@ -181,12 +181,12 @@ namespace PlayPalace_backend.Controllers
                 MainCharacterID = mc.CharacterID,
                 Name = mc.Name,
                 ImageURL = mc.ImageURL,
-                // Initialize other properties as needed
             });
 
             return Ok(mainCharacters);
         }
 
+        //Get by main character name
         [HttpGet("bymaincharactername")]
         public async Task<ActionResult<IEnumerable<Game>>> GetGamesByMainCharacterName([FromQuery] string characterName)
         {
@@ -203,6 +203,7 @@ namespace PlayPalace_backend.Controllers
         }
 
 
+        // Get the brand based on the id
         [HttpGet("brands/{id}")]
         public async Task<ActionResult<IEnumerable<BrandDTO>>> GetBrandsByGameId(int id)
         {
@@ -219,7 +220,6 @@ namespace PlayPalace_backend.Controllers
             {
                 BrandID = brand.BrandID,
                 Name = brand.Name,
-                // Initialize other properties as needed
             });
 
             return Ok(brands);
@@ -295,7 +295,6 @@ namespace PlayPalace_backend.Controllers
             return Ok(brand);
         }
 
-        // GET: api/Games/GetPlatformById/5
         [HttpGet("GetPlatformById/{id}")]
         public async Task<ActionResult<Platform>> GetPlatformById(int id)
         {
@@ -320,7 +319,6 @@ namespace PlayPalace_backend.Controllers
             var brand = new Brand
             {
                 Name = brandDTO.Name
-                // You can map other properties as needed
             };
 
             _context.Brands.Add(brand);
@@ -329,7 +327,6 @@ namespace PlayPalace_backend.Controllers
             return CreatedAtAction(nameof(GetBrandById), new { id = brand.BrandID }, brand);
         }
 
-        // POST: api/Games/CreatePlatform
         [HttpPost("CreatePlatform")]
         public async Task<ActionResult<Platform>> CreatePlatform([FromBody] PlatformDTO platformDTO)
         {
@@ -341,7 +338,6 @@ namespace PlayPalace_backend.Controllers
             var platform = new Platform
             {
                 Name = platformDTO.Name
-                // You can map other properties as needed
             };
 
             _context.Platforms.Add(platform);
@@ -384,7 +380,7 @@ namespace PlayPalace_backend.Controllers
 
             if (game == null)
             {
-                return NotFound("Game not found."); // You may want to handle this case appropriately in your application.
+                return NotFound("Game not found."); 
             }
 
             var mainCharacter = new MainCharacter

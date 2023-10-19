@@ -5,6 +5,7 @@ import { AuthContext } from "../Utils/AuthContext";
 import { getRequest } from "../Utils/Request";
 
 function Navbar() {
+    // State variables and hooks for the Navbar component
     const [navbarBg, setNavbarBg] = useState("transparent");
     const [searchVisible, setSearchVisible] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
@@ -15,11 +16,13 @@ function Navbar() {
     const searchInputRef = useRef(null);
     const navigate = useNavigate();
 
+    // Function for navigating to a specific page
     const nav = function (e, place) {
         e.preventDefault();
         return navigate(place);
     };
 
+    // Function to toggle the search bar visibility
     const toggleSearch = () => {
         setSearchVisible(!searchVisible);
         if (!searchVisible) {
@@ -29,35 +32,39 @@ function Navbar() {
         }
     };
 
+    // Function to handle user logout
     const handleLogOut = function (e) {
         e.preventDefault();
         logout();
         nav(e, "/home");
     };
 
+    // Function to navigate to Rentals page
     const handleRental = function (e) {
         e.preventDefault();
         nav(e, "/Rentals");
     };
 
+    // Function to handle game search
     const handleSearch = (e) => {
         e.preventDefault();
         navigate(`/game/name/${searchQuery}`);
     };
 
+    // Function to handle search input blur and hide search bar
     const handleBlur = () => {
         setTimeout(() => {
             setSearchVisible(false);
         }, 500);
     };
 
+    // Function to handle advanced search
     const handleAdvance = (e) => {
         e.preventDefault();
         navigate(`/game/advance/advance/`);
     };
 
-    console.log(userAuthenticated)
-
+    // Function to get user rentals
     const getRentals = async function () {
         if (userAuthenticated) {
             let response = await getRequest(
@@ -67,6 +74,7 @@ function Navbar() {
         }
     };
 
+    // Scroll listener to change the navbar background color
     useEffect(() => {
         const handleScroll = () => {
             const scrollY = window.scrollY;
@@ -83,6 +91,7 @@ function Navbar() {
         };
     }, []);
 
+    // Get user rentals when the user is authenticated
     useEffect(() => {
         getRentals();
     }, [userAuthenticated]);

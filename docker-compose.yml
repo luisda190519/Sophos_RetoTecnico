@@ -1,0 +1,14 @@
+version: '3'
+services:
+  backend:
+    image: appback
+    ports:
+      - "5000:80"
+    container_name: playpalace-backend
+  frontend:
+    image: appfront
+    ports:
+      - "3000:80" 
+    depends_on:
+      - backend
+    container_name: playpalace-frontend
