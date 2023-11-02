@@ -286,7 +286,6 @@ function Navbar() {
                                             </span>
                                         </span>
                                     </i>
-                                    <i className="bi bi-person-circle fs-3 click me-3"></i>
                                     <i
                                         className="bi bi-box-arrow-right fs-3 click "
                                         onClick={(e) => handleLogOut(e)}

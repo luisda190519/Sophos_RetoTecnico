@@ -83,7 +83,7 @@ function ImageHome() {
             <div style={boxContainerStyle}>
                 <div style={boxStyle} className="mx-5 ">
                     <p className="fs-1 pt-3 text-center">
-                        Don't miss out on limited-time offers!
+                        No te pierdas las ofertas, ¡alquila ya!
                     </p>
                     <div className="row fs-2">
                         <div className="col">

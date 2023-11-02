@@ -68,7 +68,7 @@ function AdminPanel() {
     const handleRequests = async function () {
         let response = await getRequest("/Customer/mostfrequentcustomers");
         setMostCustomers(response);
-        response = await getRequest("/Rental/mostrentedgames");
+        response = await getRequest("/games");
         setMostRented(response);
         response = await getRequest("/Rental/leastrentedgamesbyagerange");
         response = transformDataForTable(response);

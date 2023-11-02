@@ -9,7 +9,7 @@ function Footer() {
                         <div className="row text-center d-flex justify-content-center pt-5">
                             <div className="col-md-2">
                                 <h6 className="text-uppercase font-weight-bold">
-                                    <a href="#!" class="text-white">
+                                    <a href="#!" className="text-white">
                                         Acerca de nosotros
                                     </a>
                                 </h6>
@@ -17,7 +17,7 @@ function Footer() {
 
                             <div className="col-md-2">
                                 <h6 className="text-uppercase font-weight-bold">
-                                    <a href="#!" class="text-white">
+                                    <a href="#!" className="text-white">
                                         Ayuda
                                     </a>
                                 </h6>
@@ -25,7 +25,7 @@ function Footer() {
 
                             <div className="col-md-2">
                                 <h6 className="text-uppercase font-weight-bold">
-                                    <a href="#!" class="text-white">
+                                    <a href="#!" className="text-white">
                                         Filosofia
                                     </a>
                                 </h6>
@@ -33,7 +33,7 @@ function Footer() {
 
                             <div className="col-md-2">
                                 <h6 className="text-uppercase font-weight-bold">
-                                    <a href="#!" class="text-white">
+                                    <a href="#!" className="text-white">
                                         Historia
                                     </a>
                                 </h6>
@@ -41,7 +41,7 @@ function Footer() {
                         </div>
                     </section>
 
-                    <hr class="my-5" />
+                    <hr className="my-5" />
 
                     <section className="mb-5">
                         <div className="row d-flex justify-content-center">
@@ -67,23 +67,23 @@ function Footer() {
                         </a>
 
                         <a href="" className="text-white me-4">
-                            <i class="bi bi-twitter"></i>
+                            <i className="bi bi-twitter"></i>
                         </a>
 
                         <a href="" className="text-white me-4">
-                            <i class="bi bi-google"></i>
+                            <i className="bi bi-google"></i>
                         </a>
 
                         <a href="" className="text-white me-4">
-                            <i class="bi bi-instagram"></i>
+                            <i className="bi bi-instagram"></i>
                         </a>
 
                         <a href="" className="text-white me-4">
-                            <i class="bi bi-linkedin"></i>
+                            <i className="bi bi-linkedin"></i>
                         </a>
 
                         <a href="" className="text-white me-4">
-                            <i class="bi bi-github"></i>
+                            <i className="bi bi-github"></i>
                         </a>
                     </section>
                 </div>

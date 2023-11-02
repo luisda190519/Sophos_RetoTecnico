@@ -10,6 +10,7 @@ function Signup() {
     const [name, setName] = useState("");
     const [lastname, setLastname] = useState("");
     const [number, setNumber] = useState("");
+    const [error, setError] = useState(false);
 
     const [address, setAddress] = useState("");
     const [document, setDocument] = useState(0);
@@ -45,8 +46,6 @@ function Signup() {
         setNumber(e.target.value);
     };
 
-    //news
-
     const handleAddressChange = (e) => {
         e.preventDefault();
         setAddress(e.target.value);
@@ -80,10 +79,10 @@ function Signup() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const user = await postRequest("/Auth/signup", {
-            Email:email,
-            Password : password,
-            Name : name,
-            LastName : lastname,
+            Email: email,
+            Password: password,
+            Name: name,
+            LastName: lastname,
             Address: address,
             Cellphone: number,
             Gender: gender,
@@ -97,8 +96,8 @@ function Signup() {
             await login(user.user);
             return navigate("/home");
         }
-    
-        console.log(user);
+
+        return setError(true);
     };
 
     return (
@@ -133,13 +132,13 @@ function Signup() {
                                             <div className="form-outline mb-4">
                                                 <label
                                                     className="form-label"
-                                                    htmlFor="form3Example1"
+                                                    htmlFor="nombre"
                                                 >
                                                     Nombres
                                                 </label>
                                                 <input
                                                     type="text"
-                                                    id="form3Example1"
+                                                    id="nombre"
                                                     className="form-control"
                                                     onChange={(e) =>
                                                         handleNameChange(e)
@@ -149,13 +148,13 @@ function Signup() {
                                             <div className="form-outline mb-4">
                                                 <label
                                                     className="form-label"
-                                                    htmlFor="form3Example2"
+                                                    htmlFor="apellido"
                                                 >
                                                     Apellidos
                                                 </label>
                                                 <input
                                                     type="text"
-                                                    id="form3Example2"
+                                                    id="apellido"
                                                     className="form-control"
                                                     onChange={(e) =>
                                                         handleLastnameChange(e)
@@ -181,13 +180,13 @@ function Signup() {
                                             <div className="form-outline mb-4">
                                                 <label
                                                     className="form-label"
-                                                    htmlFor="form3Example4"
+                                                    htmlFor="dir"
                                                 >
                                                     Direccion
                                                 </label>
                                                 <input
                                                     type="text"
-                                                    id="form3Example4"
+                                                    id="dir"
                                                     className="form-control"
                                                     onChange={(e) =>
                                                         handleAddressChange(e)
@@ -197,47 +196,70 @@ function Signup() {
                                             <div className="form-outline mb-4">
                                                 <label
                                                     className="form-label"
-                                                    htmlFor="form3Example4"
+                                                    htmlFor="gender"
                                                 >
                                                     Genero
                                                 </label>
-                                                <input
-                                                    type="text"
-                                                    id="form3Example4"
-                                                    className="form-control"
+                                                <select
+                                                    name="gender"
+                                                    id="gender"
+                                                    className="form-select"
                                                     onChange={(e) =>
                                                         handleGenderChange(e)
                                                     }
-                                                />
+                                                >
+                                                    <option value="masculino">
+                                                        Masculino
+                                                    </option>
+                                                    <option value="femenino">
+                                                        Femenino
+                                                    </option>
+                                                    <option value="no binario">
+                                                        No binario
+                                                    </option>
+                                                    <option value="Prefiero no decirlo">
+                                                        Prefiero no decirlo
+                                                    </option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div className="col-md-6 mb-4">
                                             <div className="form-outline mb-4">
                                                 <label
                                                     className="form-label"
-                                                    htmlFor="form3Example4"
+                                                    htmlFor="tipo"
                                                 >
                                                     Tipo de documento
                                                 </label>
-                                                <input
-                                                    type="text"
-                                                    id="form3Example4"
-                                                    className="form-control"
+                                                <select
+                                                    name="tipo"
+                                                    id="tipo"
+                                                    className="form-select"
                                                     onChange={(e) =>
                                                         handleTypeChange(e)
                                                     }
-                                                />
+                                                >
+                                                    <option value="Cedula">
+                                                        Cedula
+                                                    </option>
+                                                    <option value="Tarjeta de identidad">
+                                                        Tarjeta de identidad
+                                                    </option>
+                                                    <option value="Pasaporte">
+                                                        Pasaporte
+                                                    </option>
+                                                </select>
                                             </div>
                                             <div className="form-outline mb-4">
                                                 <label
                                                     className="form-label"
-                                                    htmlFor="form3Example4"
+                                                    htmlFor="doc"
                                                 >
                                                     Documento
                                                 </label>
                                                 <input
                                                     type="number"
-                                                    id="form3Example4"
+                                                    id="doc"
                                                     className="form-control"
                                                     onChange={(e) =>
                                                         handleDocumentChange(e)
@@ -248,13 +270,13 @@ function Signup() {
                                             <div className="form-outline mb-4">
                                                 <label
                                                     className="form-label"
-                                                    htmlFor="form3Example4"
+                                                    htmlFor="age"
                                                 >
                                                     Edad
                                                 </label>
                                                 <input
                                                     type="number"
-                                                    id="form3Example4"
+                                                    id="age"
                                                     className="form-control"
                                                     onChange={(e) =>
                                                         handleAgeChange(e)
@@ -265,13 +287,13 @@ function Signup() {
                                             <div className="form-outline mb-4">
                                                 <label
                                                     className="form-label"
-                                                    htmlFor="form3Example3"
+                                                    htmlFor="email"
                                                 >
                                                     Email
                                                 </label>
                                                 <input
                                                     type="email"
-                                                    id="form3Example3"
+                                                    id="email"
                                                     className="form-control"
                                                     onChange={(e) =>
                                                         handleEmailChange(e)
@@ -282,13 +304,13 @@ function Signup() {
                                             <div className="form-outline mb-4">
                                                 <label
                                                     className="form-label"
-                                                    htmlFor="form3Example4"
+                                                    htmlFor="password"
                                                 >
                                                     Contraseña
                                                 </label>
                                                 <input
                                                     type="password"
-                                                    id="form3Example4"
+                                                    id="password"
                                                     className="form-control"
                                                     onChange={(e) =>
                                                         handlePasswordChange(e)
@@ -296,6 +318,18 @@ function Signup() {
                                                 />
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <div>
+                                        {error ? (
+                                            <p className="text-danger">
+                                                Error al crear cuenta, su
+                                                contraseña debe tener al menos 8
+                                                caracteres, una mayuscula, una
+                                                minuscula, un numero y un
+                                                caracter especial.
+                                            </p>
+                                        ) : null}
                                     </div>
 
                                     <button
@@ -307,7 +341,7 @@ function Signup() {
                                             border: "none",
                                         }}
                                     >
-                                        Sign up
+                                        Registrarse
                                     </button>
 
                                     <div>

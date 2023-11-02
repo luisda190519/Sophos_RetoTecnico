@@ -12,7 +12,8 @@ function ExpandedGame() {
     const [MCS, setMCS] = useState([]);
     const [brands, setBrands] = useState([]);
     const { gameID } = useParams();
-    const ratingStars = generateRandomRating();
+    const [ratingStars, setRating] = useState(generateRandomRating());
+    const [numeroReviews, setNumeroReviews] = useState(Math.round(Math.random() * 20) + 1); 
     const navigate = useNavigate();
     const { userAuthenticated } = useContext(AuthContext);
     const [rentalDate, setRentalDate] = useState(new Date());
@@ -56,7 +57,10 @@ function ExpandedGame() {
 
     function generateRandomRating() {
         const rating = Math.random() * 5;
-        const roundedRating = Math.round(rating * 2) / 2;
+        let roundedRating = Math.round(rating * 2) / 2;
+        if (roundedRating === 0) {
+            roundedRating = 1;
+        }
         const stars = [];
         for (let i = 0; i < 5; i++) {
             if (i < roundedRating) {
@@ -226,7 +230,7 @@ function ExpandedGame() {
                     </div>
                     <div className="col-6">
                         <h3 className="text-white">
-                            Basado en {Math.round(Math.random() * 20) + 1}{" "}
+                            Basado en {numeroReviews}{" "}
                             reviews
                         </h3>
                         <div className="game-rating mb-2">
@@ -270,17 +274,26 @@ function ExpandedGame() {
                         </div>
                     </div>
                 </div>
-                <div>
-                    <h2 className="text-white mt-5">Protagonistas:</h2>
-                    {MCS.map((mc, key) => {
-                        return (
-                            <div className="container mb-5">
-                                <h4 className="text-white mt-5">{mc.name}</h4>
-                                <img src={mc.imageURL} className="img-fluid" />
-                            </div>
-                        );
-                    })}
-                </div>
+                {MCS.length > 0 ? (
+                    <div>
+                        <h2 className="text-white mt-5">Protagonistas:</h2>
+                        {MCS.map((mc, key) => {
+                            return (
+                                <div className="container mb-5">
+                                    <h4 className="text-white mt-5">
+                                        {mc.name}
+                                    </h4>
+                                    <img
+                                        src={mc.imageURL}
+                                        className="img-fluid"
+                                    />
+                                </div>
+                            );
+                        })}
+                    </div>
+                ) : (
+                    <div></div>
+                )}
             </div>
             <Footer></Footer>
         </div>

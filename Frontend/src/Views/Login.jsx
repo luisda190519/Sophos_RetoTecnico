@@ -7,6 +7,7 @@ import "../Styles/auth.css";
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState(false);
     const navigate = useNavigate();
     const { login } = useContext(AuthContext);
 
@@ -32,13 +33,12 @@ function Login() {
             Password: password,
         });
 
-        console.log(response);
-        console.log(email + " " + password);
-
         if (response.message === "User signed in successfully.") {
             await login(response.user);
             return navigate("/home");
         }
+
+        return setError(true);
     };
 
     return (
@@ -67,13 +67,13 @@ function Login() {
                                     <div className="form-outline mb-4">
                                         <label
                                             className="form-label"
-                                            htmlFor="form3Example3"
+                                            htmlFor="email"
                                         >
                                             Email
                                         </label>
                                         <input
                                             type="email"
-                                            id="form3Example3"
+                                            id="email"
                                             className="form-control text-white"
                                             onChange={(e) =>
                                                 handleEmailChange(e)
@@ -84,18 +84,26 @@ function Login() {
                                     <div className="form-outline mb-4">
                                         <label
                                             className="form-label"
-                                            htmlFor="form3Example4"
+                                            htmlFor="password"
                                         >
                                             Contraseña
                                         </label>
                                         <input
                                             type="password"
-                                            id="form3Example4"
+                                            id="password"
                                             className="form-control"
                                             onChange={(e) =>
                                                 handlePasswordChange(e)
                                             }
                                         />
+                                    </div>
+
+                                    <div>
+                                        {error ? (
+                                            <p className="text-danger">
+                                                Email o contraseña incorrectos.
+                                            </p>
+                                        ) : null}
                                     </div>
 
                                     <button
@@ -107,7 +115,7 @@ function Login() {
                                             border: "none",
                                         }}
                                     >
-                                        Log in
+                                        Iniciar sesion
                                     </button>
 
                                     <div>
